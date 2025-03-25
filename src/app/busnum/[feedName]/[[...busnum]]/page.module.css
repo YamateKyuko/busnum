@@ -1,0 +1,47 @@
+.search {
+  .info {
+    text-align: center;
+  }
+
+  .box {
+    text-align: center;
+    & input {
+      width: 80vw;
+      height: 25vw;
+      box-sizing: border-box;
+      text-align: center;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 20vw;
+      background-color: inherit;
+      box-sizing: border-box;
+      font-family: 'Helvetica', sans-serif;
+      border: 0.0625rem solid #000;
+      border-radius: 0.5rem;
+      transition: background-color 0.25s;
+      &:hover {
+        background-color: lightgray;
+      }
+    }
+  }
+
+  .button {
+    text-align: center;
+    & button {
+      /* display: block; */
+      width: 20vw;
+      height: 10vw;
+      font-size: 7.5vw;
+      line-height: 10vw;
+      background-color: #000;
+      /* width: 100%; */
+      /* height: 100%; */
+      border-radius: 0.5rem;
+      color: white;
+      transition: background-color 0.25s;
+      &:hover {
+        background-color: gray;
+      }
+    }
+  }
+}

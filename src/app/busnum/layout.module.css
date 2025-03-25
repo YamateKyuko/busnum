@@ -1,0 +1,56 @@
+& body {
+  overflow-y: scroll;
+}
+
+.header {
+  width: 100%;
+  height: 3rem;
+  top: 0;
+  left: 0;
+  background-color: gray;
+  text-align: center;
+  position: fixed;
+  box-shadow: 0rem 0rem 1rem 1rem #0008;
+  & img {
+    height: 3rem;
+  }
+}
+
+.main {
+  margin-top: 4rem;
+  min-height: calc(100vh - 7rem);
+  overflow-x: auto;
+}
+
+.footer {
+  position: sticky;
+  top: 100vh;
+  background-color: gray;
+  /* height: 4rem; */
+  z-index: -1;
+  & p:first-child {
+    margin: 0;
+    padding: 0.5rem;
+    color: white;
+    font-size: 1rem;
+    line-height: 1rem;
+    text-align: center;
+  }
+  & p:nth-child(2) {
+    margin: 0;
+    color: white;
+    font-size: 0.75rem;
+    text-align: center;
+  }
+  & p:nth-child(3) {
+    margin: 0;
+    color: white;
+    text-align: center;
+    padding: 0.25rem;
+    font-size: 0.75rem;
+    & a {
+      color: white;
+    }
+  }
+}
+

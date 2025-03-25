@@ -9,17 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/geojson": "^7946.0.16",
+    "google-protobuf": "^3.21.4",
+    "jsonwebtoken": "^9.0.2",
+    "next": "15.2.2",
+    "pg": "^8.14.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.2.2"
+    "use-debounce": "^10.0.4"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20",
+    "@types/pg": "^8.11.11",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.2",
-    "@eslint/eslintrc": "^3"
+    "typescript": "^5"
   }
 }
