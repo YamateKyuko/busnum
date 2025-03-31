@@ -37,7 +37,7 @@ export default function Home() {
         <li>
           <details>
             <summary>
-              京王
+              京王バス
             </summary>
             数字 3・5 桁でお願いします。<br />
             アルファベット(営業所記号)は省略してください。<br />
@@ -66,7 +66,7 @@ export default function Home() {
         <li>
           <details>
             <summary>
-              都営
+              都営バス
             </summary>
             アルファベット + 数字3桁で入力してください。<br />
             最初のアルファベット(営業所記号)は省略してください。<br />
