@@ -43,6 +43,8 @@ export default async function Vehicle(props: {
   if (!res) return;
 
   const tripUpdate = TUres?.[0] || null;
+
+  console.log(res)
   return (
     <>
       <ul className={styles.stopList}>
@@ -63,12 +65,13 @@ export default async function Vehicle(props: {
               }</p>
             }
             <p className={styles.time}>
-              {tripUpdate && (
-                (update) => {
-                  const time = (n: number, d: number, b: boolean) => {
-                    const t = n + d;
+              {(
+                () => {
+                  const update = tripUpdate?.stop_time_update_list.find((tu) => tu.stop_id == stop.stop_id);
+                  const time = (n: number, d: number | undefined, b: boolean) => {
+                    const t = n + (d || 0);
                     return <>
-                      {Math.abs(d) > 30 &&
+                      {d && Math.abs(d) > 30 &&
                         <span>約<span>{Math.round(d / 60)}</span>分{d > 0 ? '遅れ' : '早発'}</span>
                       }
                       {Math.trunc(t / 3600).toString().padStart(2, '0')}:
@@ -77,11 +80,11 @@ export default async function Vehicle(props: {
                       {props.vehicle.stop_sequence <= stop.stop_sequence && '見込'}
                     </>;
                   };
-                  if (!update) return '';
-                  if (update.departure_delay) return time(stop.departure_time, update.departure_delay, false);
-                  if (update.arrival_delay) return time(stop.arrival_time, update.arrival_delay, true);
+                  if (!update) return time(stop.departure_time, undefined, false);
+                  if (update?.departure_delay) return time(stop.departure_time, update.departure_delay, false);
+                  if (update?.arrival_delay) return time(stop.arrival_time, update.arrival_delay, true);
                   return '';
-                })(tripUpdate.stop_time_update_list.find((tu) => tu.stop_id == stop.stop_id)
+                })(
               )}
               
             </p>
