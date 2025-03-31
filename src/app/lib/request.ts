@@ -65,7 +65,7 @@ export class APIrequester<T extends resType | resType[]> {
         this.apiKey = process.env.API_KEY || '';
         break;
       case 'db':
-        this.root = 'https://gtfsdb.yamakyu.workers.dev'; // kari
+        this.root = process.env.GTFSDB_URL || ''; // kari
         this.apiKey = process.env.GTFSDB_API_KEY || '';
         break;
       default:

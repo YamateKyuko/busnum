@@ -114,7 +114,7 @@ export async function fetchRequester (
       if (val == true) {
         switch (key) {
           case 'acl:consumerKey': // ACLを参照のこと
-            params.append(key, process.env.ACL || ''); break;
+            params.append(key, process.env.ODPT_API_KEY || ''); break;
           default:
             break;
         };
