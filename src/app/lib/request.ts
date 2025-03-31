@@ -33,7 +33,7 @@ export default class APIrequeste<T extends resDefObj> {
       const token = jwt.sign(payload, secret);
 
       const response = await fetch(
-        `${process.env.VERCEL_URL}/api/${this.endpoint}`,
+        `${process.env.VERCEL_API_URL}/api/${this.endpoint}`,
         {headers: {'Authorization': `Bearer ${token}`}}
       );
       const json = await response.json();
@@ -61,11 +61,11 @@ export class APIrequester<T extends resType | resType[]> {
     this.endpoint = endpoint;
     switch (root) {
       case 'rt':
-        this.root = process.env.VERCEL_URL || '';
+        this.root = process.env.VERCEL_API_URL || '';
         this.apiKey = process.env.API_KEY || '';
         break;
       case 'db':
-        this.root = process.env.GTFSDB_URL || ''; // kari
+        this.root = process.env.GTFSDB_API_URL || ''; // kari
         this.apiKey = process.env.GTFSDB_API_KEY || '';
         break;
       default:
