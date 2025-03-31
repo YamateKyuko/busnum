@@ -1,37 +1,36 @@
-import APIrequester from "@/app/lib/request";
+import { APIrequester } from "@/app/lib/request";
+import styles from "./styles.module.css";
+import { vehicle } from "./table";
 
-const tripRequester = new APIrequester({
-  endpoint: 'gtfsdb/stop_times',
-  resDef: [{
-    feed_id: 'number',
-    trip_id: 'string',
-    stop_id: 'string',
-    stop_sequence: 'number',
-    arrival_time: 'string',
-    departure_time: 'string',
-    stop_name: 'string'
-  }]
-});
+export type stopTime = {
+  feed_id: number,
+  trip_id: string,
+  stop_id: string,
+  stop_sequence: number,
+  arrival_time: number,
+  departure_time: number,
+  stop_name: string,
+  platform_code: string,
+}
 
-const tripUpdatesRequester = new APIrequester({
-  endpoint: 'gtfsrt/tripUpdates',
-  resDef: [{
-    stop_time_update_list: 'number'
-    // id: 'string',
-    // feed_id: 'number',
-    // trip_id: 'string',
-    // schedule_relationship: 'number',
-    // vehicle_id: 'string',
-    // vehicle_label: 'string',
-    // wheelchair_accessible: 'number',
-    // stop_time_update_list: 'object',
-    // timestamp: 'number',
-    // delay: 'number'
-  }]
-});
+const tripRequester = new APIrequester<stopTime[]>(
+  'gtfsdb/stop_times', 'db'
+);
+
+type tripUpdate = {
+  stop_time_update_list: {
+    stop_id: string,
+    arrival_delay: number | null,
+    departure_delay: number | null,
+  }[]
+};
+
+const tripUpdatesRequester = new APIrequester<tripUpdate[]>(
+  'gtfsrt/tripUpdates', 'rt'
+);
 
 export default async function Vehicle(props: {
-  vehicle: {feed_id: number, trip_id: string, description: string, stop_id: string, stop_sequence: number}
+  vehicle: vehicle
 }) {
   const res = await tripRequester.get({
     feed_id: props.vehicle.feed_id,
@@ -43,27 +42,56 @@ export default async function Vehicle(props: {
   });
   if (!res) return;
 
-  const TU = TUres?.[0] || null;
-  console.log(props.vehicle);
+  const tripUpdate = TUres?.[0] || null;
   return (
-    <li>
-      <h3>{props.vehicle.description}</h3>
-      <ul>
-        {res.map((stop, i) => 
-          <li key={stop.stop_sequence + '_' + i}>
+    <>
+      <ul className={styles.stopList}>
+        {res.map((stop) => 
+          <li key={stop.stop_sequence}>
             {
-              props.vehicle.stop_id == stop.stop_id && 
               props.vehicle.stop_sequence == stop.stop_sequence &&
-              <p>ここ</p>
+              <p className={`${
+                props.vehicle.status == 0 ? styles.incoming :
+                props.vehicle.status == 1 ? styles.stopped :
+                props.vehicle.status == 2 ? styles.inTransit :
+                ''} ${styles.status}
+              `}>{
+                props.vehicle.status == 0 ? '接近' :
+                props.vehicle.status == 1 ? '停車' :
+                props.vehicle.status == 2 ? '走行' :
+                ''
+              }</p>
             }
-            {TU && (TU.stop_time_update_list as unknown as {[key: string]: string}[]).map((TU, i) =>
-              TU.stop_id == stop.stop_id &&
-              <p key={i}>遅れ: {TU.departure_delay}</p>
-            )}
-            <p>{stop.stop_name}</p>{stop.arrival_time as string}
+            <p className={styles.time}>
+              {tripUpdate && (
+                (update) => {
+                  const time = (n: number, d: number, b: boolean) => {
+                    const t = n + d;
+                    return <>
+                      {Math.abs(d) > 30 &&
+                        <span>約<span>{Math.round(d / 60)}</span>分{d > 0 ? '遅れ' : '早発'}</span>
+                      }
+                      {Math.trunc(t / 3600).toString().padStart(2, '0')}:
+                      {Math.trunc((t % 3600) / 60).toString().padStart(2, '0')}
+                      {b ? '着' : '発'}
+                      {props.vehicle.stop_sequence <= stop.stop_sequence && '見込'}
+                    </>;
+                  };
+                  if (!update) return '';
+                  if (update.departure_delay) return time(stop.departure_time, update.departure_delay, false);
+                  if (update.arrival_delay) return time(stop.arrival_time, update.arrival_delay, true);
+                  return '';
+                })(tripUpdate.stop_time_update_list.find((tu) => tu.stop_id == stop.stop_id)
+              )}
+              
+            </p>
+            <h3>
+              {stop.stop_name}
+              <span>{stop.platform_code}</span>
+            </h3>
           </li>
         )}
     </ul>
-    </li>
+    </>
   );
 };

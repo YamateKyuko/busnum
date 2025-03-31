@@ -26,7 +26,9 @@ const routesAPI = new API({
         stop_patterns.route_type,
         stop_patterns.stop_sequence,
         stop_patterns.stop_id,
-        stop_patterns.stop_headsign
+        stop_patterns.stop_name,
+        stop_patterns.stop_headsign,
+        stop_patterns.platform_code
       from trips
       inner join stop_patterns using(feed_id, pattern_id)
       where

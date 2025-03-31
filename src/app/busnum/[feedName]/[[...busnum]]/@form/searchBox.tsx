@@ -39,19 +39,22 @@ export default function Search(props: {
         <Link href='about'>ご利用にあたって</Link>
       </li>
       <li className={styles.box}>
-        <input
-          type='text' 
-          // placeholder={props.placeholder}
-          onChange={(e) => {
-            handleSearch(e.target.value);
-          }}
-          defaultValue={
-            props.isDynamic
-              ? params[props.paramName]
-              : searchParams.get(props.paramName)?.toString()
-          }
-        >
-        </input>
+        <search>
+          <input
+            type='text' 
+            // placeholder={props.placeholder}
+            onChange={(e) => {
+              handleSearch(e.target.value);
+            }}
+            defaultValue={
+              props.isDynamic
+                ? params[props.paramName]
+                : searchParams.get(props.paramName)?.toString()
+            }
+          >
+          </input>
+        </search> 
+        
       </li>
       {/* <li className={styles.button}>
         <button>検索</button>

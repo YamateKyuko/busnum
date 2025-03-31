@@ -1,0 +1,116 @@
+.vehicle {
+  & details {
+    border: 1px solid #000;
+    padding: calc(0.5rem - 1px);
+    border-radius: 0.25rem;
+    z-index: -1;
+    & summary {
+      position: relative;
+      /* height: 2rem; */
+      box-sizing: border-box;
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      .vehicleNumber {
+        position: absolute;
+        top: -0.5rem;
+        border: 1px solid #000;
+        width: min-content;
+        padding: calc(0.25rem - 1px);
+        line-height: 1rem;
+        min-width: 3.5rem;
+        text-align: center;
+      }
+      .tripDesc {
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+        & span {
+          border: 1px solid #000;
+          margin-right: 0.5rem;
+          box-sizing: border-box;
+          min-width: calc(4rem);
+          display: inline-block;
+          height: 1.5rem;
+          text-align: center;
+          line-height: calc(1.5rem - 2px);
+        }
+      }
+      .stopDesc {
+        line-height: 1.5rem;
+        font-size: 0.75rem;
+        height: 1.5rem;
+        & span {
+          padding: 0 0.5rem;
+          font-size: 1rem;
+        }
+      }
+      &::marker {
+        content: '';
+      }
+    }
+    & ul.stopList {
+      margin: 0.5rem 0 0 0;
+      & li {
+        position: relative;
+        border-top: 1px solid #000;
+        padding-left: 3rem;
+        box-sizing: border-box;
+        .status {
+          position: absolute;
+          left: 0;
+          width: 2.5rem;
+          height: 1.5rem;
+          border-radius: 0.25rem;
+          background-color: #000;
+          color: #fff;
+          text-align: center;
+          line-height: calc(1.5rem - 2px);
+          border: 1px solid #000;
+          box-sizing: border-box;
+        }
+        /* 0: INCOMING_AT, 1: STOPPED_AT, 2: IN_TRANSIT_TO */
+        .incoming {
+          top: 0rem;
+          animation: incoming 1s ease-in-out infinite alternate;
+        }
+        .stopped {
+          top: 1.5rem;
+          background-color: #000;
+        }
+        .inTransit {
+          top: 0rem;
+          background-color: #00f;
+        }
+        .time {
+          & span {
+            font-size: 0.75rem;
+            padding-right: 0.5rem;
+            & span {
+              font-size: 1rem;
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+  @keyframes imcoming {
+    from {background-color: #0f0;}
+    to {background-color: #ff0;}
+  }
+
+
+
+  @keyframes incoming {
+    0% {
+      background-color: #000;
+      /* opacity: 0; */
+    }
+    100% {
+      background-color: gray;
+      /* opacity: 1; */
+    }
+  }

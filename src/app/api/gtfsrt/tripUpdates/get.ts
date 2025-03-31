@@ -36,28 +36,8 @@ export async function getRT(
     );
 
     return grouped;
-
-
-
-
-    // const provObj = providerList[provider];
-    // if (!provObj) return null;
-    // const response = await axios.get(
-    //   provObj.TUendpoint,
-    //   {
-    //     params: {'acl:consumerKey': process.env.ACL || ''},
-    //     responseType: 'arraybuffer'
-    //   },
-    // );
-    // if (!response) return null;
-    // const buffer = response.data;
-    // const message = gtfsRealtime.FeedMessage.deserializeBinary(new Uint8Array(buffer));
-    // const object = message.toObject();
-    // // object.entityList = object.entityList.slice(0, 10)
-    // // console.log(object);
-    // return object.entityList.map((entity) => convEntity(entity)).flat();
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    console.error(e);
     return null;
   }
 }
@@ -71,12 +51,6 @@ function convEntity(
   if (
     entity.tripUpdate?.trip?.tripId == undefined
   ) return [];
-
-  // const obj: { [key: number]: tripStopObj } = {};
-  // entity.tripUpdate?.stopTimeUpdateList.forEach((stopTimeUpdate) => {
-  //   const res = convList(stopTimeUpdate);
-  //   if (res) obj[res.stop_sequence] = res;
-  // });
 
   const obj = entity.tripUpdate?.stopTimeUpdateList.map((stopTimeUpdate) => {
     return convList(stopTimeUpdate);

@@ -142,8 +142,8 @@ const tripUpdatesAPI = new API({
       // const vehicleData = response.get(busNum);
       // if (!vehicleData) return NextResponse.json([]);
       return NextResponse.json(store.get(feedName, tripId) || []);
-    } catch (error) {
-      console.error('Error fetching data from external API:', error);
+    } catch (e) {
+      console.log(e);
       return NextResponse.json({VehiclePosition: "error"}, { status: 500 });
     }
   },

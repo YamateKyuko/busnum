@@ -21,7 +21,8 @@ const routesAPI = new API({
         stop_headsign,
         pickup_type,
         drop_off_type,
-        stop_name
+        stop_name,
+        platform_code
       FROM stop_times
       inner join stops using (feed_id, stop_id)
       WHERE feed_id = $1 and trip_id = $2
@@ -30,7 +31,7 @@ const routesAPI = new API({
       `,
       [reqObj.feed_id, reqObj.trip_id]
     );
-    // console.log(result);
+
     if (!result) return NextResponse.json([]);
     
     return NextResponse.json(result);

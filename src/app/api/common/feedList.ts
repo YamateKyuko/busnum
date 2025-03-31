@@ -31,7 +31,7 @@ const feedList: Record<string, feedListObj_> = {
   'keiobus': {
     name: '京王バス',
     date: 'current',
-    feed_id: 2,
+    feed_id: 1,
     endpoints: {
       VehiclePosition: 'https://api.odpt.org/api/v4/gtfs/realtime/odpt_KeioBus_AllLines_vehicle',
       TripUpdates: 'https://api.odpt.org/api/v4/gtfs/realtime/odpt_KeioBus_AllLines_trip_update',
@@ -50,7 +50,7 @@ const feedList: Record<string, feedListObj_> = {
   'toeibus': {
     name: '都営バス',
     date: 'current',
-    feed_id: 1,
+    feed_id: 2,
     endpoints: {
       VehiclePosition: 'https://api.odpt.org/api/v4/gtfs/realtime/ToeiBus',
       // TripUpdates 未提供

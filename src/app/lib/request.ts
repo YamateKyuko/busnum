@@ -10,7 +10,7 @@ type resDefObjTypeConv<T extends resDefObjVals> = T extends 'string' ? string : 
 type resDefObjVals = 'string' | 'number';
 
 /** 中間APIリクエスト関数の共通class */
-export default class APIrequester<T extends resDefObj> {
+export default class APIrequeste<T extends resDefObj> {
   endpoint: string;
 
   resDefObj: T;
@@ -47,54 +47,51 @@ export default class APIrequester<T extends resDefObj> {
 
 
 
-// type resType = Record<string, string | number>;
+type resType = Record<string, unknown>;
 
-// export class APIrequeste<T extends resType> {
-//   endpoint: string;
+export class APIrequester<T extends resType | resType[]> {
+  root: string = '';
+  endpoint: string;
+  private apiKey: string = '';
 
-//   // resDefObj: T;
+  constructor(
+    endpoint: string,
+    root: 'rt' | 'db'
+  ) {
+    this.endpoint = endpoint;
+    switch (root) {
+      case 'rt':
+        this.root = process.env.VERCEL_URL || '';
+        this.apiKey = process.env.API_KEY || '';
+        break;
+      case 'db':
+        this.root = 'https://gtfsdb.yamakyu.workers.dev'; // kari
+        this.apiKey = process.env.GTFSDB_API_KEY || '';
+        break;
+      default:
+        this.root = '';
+        break;
+    };
+  };
 
-//   constructor(obj: {
-//     endpoint: string,
-//     // resDef: T
-//   }) {
-//     this.endpoint = obj.endpoint;
-//     // this.resDefObj = obj.resDef;
-//   };
+  async get(requestObj: {[key: string]: string | number | string[]}): Promise<T | null> {
+    try {
+      const payload = {
+        endpoint: this.endpoint,
+        requestObj: requestObj
+      };
+      const token = jwt.sign(payload, this.apiKey);
 
-//   async get(requestObj: {[key: string]: string | number | string[]}): Promise<T | null> {
-//     try {
-//       const payload = {
-//         endpoint: this.endpoint,
-//         requestObj: requestObj
-//       };
-//       const secret = process.env.API_KEY || '';
-//       const token = jwt.sign(payload, secret);
-
-//       const response = await fetch(
-//         `${process.env.VERCEL_URL}/api/${this.endpoint}`,
-//         {headers: {'Authorization': `Bearer ${token}`}}
-//       );
-//       const json = await response.json();
-//       return json;
-//     } catch(e) {
-//       console.log(e);
-//       return null;
-//     }
-//   };
-// };
-
-// type piyo = {
-//   route_name: string,
-// }
-
-// const api = new APIrequeste<piyo>({
-//   endpoint: 'gtfsdb/routes',
-// });
-
-// const hoge = await api.get({
-//   feed_id: 1,
-//   trip_id: 'a'
-// });
-
-// console.log(hoge && hoge.route_name)
+      const response = await fetch(
+        `${this.root}/api/${this.endpoint}`,
+        {headers: {'Authorization': `Bearer ${token}`}}
+      );
+      const json = await response.json();
+      if (!json) return null;
+      return json;
+    } catch(e) {
+      console.log(e);
+      return null;
+    }
+  };
+};

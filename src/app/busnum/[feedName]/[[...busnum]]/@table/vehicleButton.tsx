@@ -7,8 +7,7 @@ import { useParams } from 'next/navigation';
 export default function Button(props: {
   val: string,
   paramName: string,
-  elm: React.ReactNode,
-  // routeName: string | undefined
+  elm: React.ReactNode
 }) {
   const searchParams = useSearchParams();
   const p = useParams();
@@ -24,10 +23,8 @@ export default function Button(props: {
   };
 
   return (
-    <li>
-      <button onClick={() => setParam()}>
-        {props.elm}
-      </button>
-    </li>
+    <summary onClick={() => setParam()}>
+      {props.elm}
+    </summary>
   );
 };
