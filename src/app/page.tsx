@@ -1,7 +1,12 @@
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <>
-      ホーム
+      <p>ホーム</p>
+      <Link href='/busnum' >
+        busnum
+      </Link>
     </>
   );
 };

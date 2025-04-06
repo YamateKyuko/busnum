@@ -36,7 +36,7 @@ export default function Search(props: {
     <ul className={styles.search}>
       <li className={styles.info}>
         数字を入力してください。
-        <Link href='about'>ご利用にあたって</Link>
+        <Link href='/busnum'>ご利用にあたって</Link>
       </li>
       <li className={styles.box}>
         <search>
