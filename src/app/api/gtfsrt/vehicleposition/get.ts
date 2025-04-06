@@ -17,6 +17,7 @@ export async function getRT(
         date: feedObj.date
       }
     );
+    
 
     if (!gtfsrt) return null;
     const descKey = feedObj.vehicleNumPropKey;
@@ -33,6 +34,13 @@ export async function getRT(
         // vehiclePositionData.set(key, en);
       }
     ).flat();
+
+    if (feedObj.vehicleNumObj == true) {
+      return Map.groupBy(
+        hoge,
+        ({ description }) => description || ''
+      );
+    }
 
     // 指定の文字数でsliceしたものでグループ化
     const sliceIndex = feedObj.vehicleNumObj?.vehicleNumSliceIndex;

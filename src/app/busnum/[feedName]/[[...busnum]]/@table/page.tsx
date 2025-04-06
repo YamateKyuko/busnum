@@ -19,9 +19,7 @@ export default async function Page(props: {
   if (!feedObj) {return <>このフィード名はありません。</>};
   const vehicleNumObj = feedObj.vehicleNumObj;
   if (!!!vehicleNumObj) {return <>このフィード名に対して情報を提供していません。</>;};
-  const availableBusNumLength = vehicleNumObj.vehicleNumAvailableFormat.map(
-    (format) => format.length
-  );
+
 
   const searchBusNum = (await props.searchParams)[busNumSearchParamName];
   if (!searchBusNum) return <>車番が指定されていません。</>;
@@ -33,9 +31,15 @@ export default async function Page(props: {
     return [];
   }).flat().join('');
 
-  if (
-    !availableBusNumLength.includes(paramStr.length)
-  ) return <>車番が不正です。入力方法をご確認ください。</>;
+  if (vehicleNumObj != true) {
+    const availableBusNumLength = vehicleNumObj.vehicleNumAvailableFormat.map(
+      (format) => format.length
+    );
+  
+    if (
+      !availableBusNumLength.includes(paramStr.length)
+    ) return <>車番が不正です。入力方法をご確認ください。</>;  
+  }
 
   return (
     <ul>

@@ -20,7 +20,7 @@ export type feedListObj_ = {
     //     idx: number[] // vehicleNumSliceIndexの検索文字列内の位置
     //   }
     // }
-  },
+  } | true,
   tripUpdatesObj?: {
     a?: string
   }
@@ -65,19 +65,33 @@ const feedList: Record<string, feedListObj_> = {
       vehicleNumAvailableFormat: [[1,2,3,4], [2,3,4]]
     }
   },
-  'kantobus': {
-    name: '関東バス',
+  'seibubus': {
+    name: '西武バス',
     feed_id: 3,
     date: 'current',
     endpoints: {
-      VehiclePosition: 'https://api.odpt.org/api/v4/gtfs/realtime/odpt_KantoBus_AllLines_vehicle',
-      TripUpdates: 'https://api.odpt.org/api/v4/gtfs/realtime/odpt_KantoBus_AllLines_trip_update',
-      GTFS: 'https://api.odpt.org/api/v4/gtfs/odpt_KantoBus_AllLines'
+      VehiclePosition: 'https://api.odpt.org/api/v4/gtfs/realtime/SeibuBus_vehicle',
+      TripUpdates: 'https://api.odpt.org/api/v4/gtfs/realtime/SeibuBus_trip_update',
+      GTFS: 'https://api.odpt.org/api/v4/files/SeibuBus/data/SeibuBus-GTFS.zip'
     },
-    params: ['acl:consumerKey', 'date'],
+    params: ['acl:consumerKey'],
     textColor: '#a80043',
-    vehicleNumPropKey: 'vehicle_id'
+    vehicleNumPropKey: 'vehicle_id',
+    vehicleNumObj: true
   }
+  // 'kantobus': {
+  //   name: '関東バス',
+  //   feed_id: 4,
+  //   date: 'current',
+  //   endpoints: {
+  //     VehiclePosition: 'https://api.odpt.org/api/v4/gtfs/realtime/odpt_KantoBus_AllLines_vehicle',
+  //     TripUpdates: 'https://api.odpt.org/api/v4/gtfs/realtime/odpt_KantoBus_AllLines_trip_update',
+  //     GTFS: 'https://api.odpt.org/api/v4/gtfs/odpt_KantoBus_AllLines'
+  //   },
+  //   params: ['acl:consumerKey', 'date'],
+  //   textColor: '#a80043',
+  //   vehicleNumPropKey: 'vehicle_id'
+  // }
 } as const;
 
 export type feedListNames = ['keiobus', 'toeibus', 'kantobus'];

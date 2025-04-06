@@ -58,12 +58,16 @@ class vehiclePositionDataStore {
   get(feedName: string, busNum: string) {
     const vehicleNumObj = feedList[feedName]?.vehicleNumObj;
     if (!vehicleNumObj) return null;
+
+    const cache = this.data[feedName]?.cache;
+    if (!cache) return null;
+    if (vehicleNumObj === true) return cache.get(busNum) || null;
+
     const form = vehicleNumObj.vehicleNumAvailableFormat.find((f) => f.length == busNum.length);
     const descForm = vehicleNumObj.vehicleNumFormat;
     if (!form) return null;
     const IDX = vehicleNumObj.vehicleNumSliceIndex.map((i) => busNum.charAt(form.indexOf(i))).join(''); // バス検索インデックス
-    const cache = this.data[feedName]?.cache;
-    if (!cache) return null;
+
     const vehicleData = cache.get(IDX);
     if (!vehicleData) return null;
 
@@ -111,8 +115,8 @@ const vehiclePositionAPI = new API({
     if (!feedObj) return NextResponse.json({VehiclePosition: "feedName is wrong"}, { status: 400 });
     if (!feedObj.vehicleNumObj) return NextResponse.json({VehiclePosition: "feedName is not available"}, { status: 400 });
 
-    // console.log('vehiclePositionAPI');
-    // console.log(store.getAll(feedName)); // デバッグ用
+    console.log('vehiclePositionAPI');
+    console.log(store.getAll(feedName)); // デバッグ用
   
     // キャッシュ時間内かつキャッシュがあるときはキャッシュを返す
     const lastFetchTime = store.getAll(feedName)?.lastFetchTime;
