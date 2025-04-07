@@ -77,7 +77,8 @@ const feedList: Record<string, feedListObj_> = {
     params: ['acl:consumerKey'],
     textColor: '#a80043',
     vehicleNumPropKey: 'vehicle_id',
-    vehicleNumObj: true
+    vehicleNumObj: true,
+    tripUpdatesObj: {}
   }
   // 'kantobus': {
   //   name: '関東バス',
