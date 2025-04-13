@@ -115,8 +115,8 @@ const vehiclePositionAPI = new API({
     if (!feedObj) return NextResponse.json({VehiclePosition: "feedName is wrong"}, { status: 400 });
     if (!feedObj.vehicleNumObj) return NextResponse.json({VehiclePosition: "feedName is not available"}, { status: 400 });
 
-    console.log('vehiclePositionAPI');
-    console.log(store.getAll(feedName)); // デバッグ用
+    // console.log('vehiclePositionAPI');
+    // console.log(store.getAll(feedName)); // デバッグ用
   
     // キャッシュ時間内かつキャッシュがあるときはキャッシュを返す
     const lastFetchTime = store.getAll(feedName)?.lastFetchTime;

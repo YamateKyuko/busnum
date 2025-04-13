@@ -1,6 +1,7 @@
 import { APIrequester } from "@/app/lib/request";
 import styles from "./styles.module.css";
 import { vehicle } from "./table";
+import { secondToHHMMString } from "@/app/lib/util";
 
 export type stopTime = {
   feed_id: number,
@@ -48,9 +49,9 @@ export default async function Vehicle(props: {
     <>
       <ul className={styles.stopList}>
         {res.map((stop) => 
-          <li key={stop.stop_sequence}>
+          <li key={stop.stop_sequence} id={`${stop.stop_sequence}^${stop.stop_id}`}>
             {
-              props.vehicle.stop_sequence == stop.stop_sequence &&
+              props.vehicle.stop_sequence == stop.stop_sequence ?
               <p className={`${
                 props.vehicle.status == 0 ? styles.incoming :
                 props.vehicle.status == 1 ? styles.stopped :
@@ -62,35 +63,38 @@ export default async function Vehicle(props: {
                 props.vehicle.status == 2 ? '走行' :
                 ''
               }</p>
+              : <p className={styles.status}></p>
             }
-            <p className={styles.time}>
-              {(
-                () => {
-                  const update = tripUpdate?.stop_time_update_list.find((tu) => tu.stop_id == stop.stop_id);
-                  const time = (n: number, d: number | undefined, b: boolean) => {
-                    const t = n + (d || 0);
-                    return <>
-                      {d && Math.abs(d) > 30 &&
-                        <span>約<span>{Math.round(d / 60)}</span>分{d > 0 ? '遅れ' : '早発'}</span>
-                      }
-                      {Math.trunc(t / 3600).toString().padStart(2, '0')}:
-                      {Math.trunc((t % 3600) / 60).toString().padStart(2, '0')}
-                      {b ? '着' : '発'}
-                      {props.vehicle.stop_sequence <= stop.stop_sequence && '見込'}
-                    </>;
-                  };
-                  if (!update) return time(stop.departure_time, undefined, false);
-                  if (update?.departure_delay) return time(stop.departure_time, update.departure_delay, false);
-                  if (update?.arrival_delay) return time(stop.arrival_time, update.arrival_delay, true);
-                  return '';
-                })(
-              )}
-              
-            </p>
-            <h3>
-              {stop.stop_name}
-              <span>{stop.platform_code}</span>
-            </h3>
+            <div>
+              <p className={styles.time}>
+                {(
+                  () => {
+                    const update = tripUpdate?.stop_time_update_list.find((tu) => tu.stop_id == stop.stop_id);
+                    const time = (n: number, d: number | undefined, b: boolean) => {
+                      const t = n + (d || 0);
+                      return <>
+                        {d && Math.abs(d) > 30 &&
+                          <span>約<span>{Math.round(d / 60)}</span>分{d > 0 ? '遅れ' : '早発'}</span>
+                        }
+                        {secondToHHMMString(t)}
+                        <span>
+                          {b ? '着' : '発'}
+                          {props.vehicle.stop_sequence <= stop.stop_sequence && '見込'}
+                        </span>
+                      </>;
+                    };
+                    if (!update) return time(stop.departure_time, undefined, false);
+                    if (update?.departure_delay) return time(stop.departure_time, update.departure_delay, false);
+                    if (update?.arrival_delay) return time(stop.arrival_time, update.arrival_delay, true);
+                    return '';
+                  })(
+                )}
+              </p>
+              <h3>
+                {stop.stop_name}
+                <span>{stop.platform_code}</span>
+              </h3>
+            </div>
           </li>
         )}
     </ul>

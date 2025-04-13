@@ -13,6 +13,7 @@ export type vehicle = {
   schedule_relationship: number,
   stop_sequence: number,
   status: number, // 0: INCOMING_AT, 1: STOPPED_AT, 2: IN_TRANSIT_TO
+  timestamp: number,
 };
 
 const vehiclePositionRequester = new APIrequester<vehicle[]>(
@@ -57,16 +58,21 @@ export default async function Table(props: {
     return (
       <>
         <p className={styles.vehicleNumber}>{props.desc}</p>
+        <p className={styles.vehicleTimestamp}>
+          {new Date(props.vehicle.timestamp * 1000).toLocaleTimeString()}
+          <span>現在</span>
+        </p>
         <h3 className={styles.tripDesc}>
           <span className="routeName">{props.ptn?.route_name}</span>
           {props.ptn?.stop_headsign}
         </h3>
         <p className={styles.stopDesc}>
           ただいま<span>{props.ptn?.stop_name}</span>
-          {props.vehicle.status == 0 && 'に接近中'}
-          {props.vehicle.status == 1 && 'に停車中'}
-          {props.vehicle.status == 2 && 'へ走行中'}
+          {props.vehicle.status == 0 && <>に<span>接近</span>中</>}
+          {props.vehicle.status == 1 && <>で<span>停車</span>中</>}
+          {props.vehicle.status == 2 && <>へ<span>走行</span>中</>}
         </p>
+        
       </>
     );
   };

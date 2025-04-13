@@ -6,12 +6,14 @@
     z-index: -1;
     & summary {
       position: relative;
-      /* height: 2rem; */
       box-sizing: border-box;
       padding-top: 1.5rem;
+      /* overflow: auto; */
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       .vehicleNumber {
+        display: inline;
         position: absolute;
         top: -0.5rem;
         border: 1px solid #000;
@@ -21,9 +23,22 @@
         min-width: 3.5rem;
         text-align: center;
       }
+      .vehicleTimestamp {
+        position: absolute;
+        top: -0.5rem;
+        right: 0;
+        line-height: 1rem;
+        padding: calc(0.25rem - 1px);
+        border: 1px solid #ffffff00;
+        & span {
+          font-size: 0.75rem;
+        }
+      }
       .tripDesc {
+        display: inline-block;
         font-size: 1.25rem;
         line-height: 1.5rem;
+        text-wrap: nowrap;
         & span {
           border: 1px solid #000;
           margin-right: 0.5rem;
@@ -36,11 +51,13 @@
         }
       }
       .stopDesc {
+        display: inline;
         line-height: 1.5rem;
         font-size: 0.75rem;
         height: 1.5rem;
+        width: auto;
+        text-wrap: nowrap;
         & span {
-          padding: 0 0.5rem;
           font-size: 1rem;
         }
       }
@@ -53,44 +70,49 @@
       & li {
         position: relative;
         border-top: 1px solid #000;
-        padding-left: 3rem;
+        padding: 0.5rem 0;
+        margin: 0;
         box-sizing: border-box;
+        display: flex;
         .status {
-          position: absolute;
-          left: 0;
-          width: 2.5rem;
-          height: 1.5rem;
+          width: 4rem;
+          height: auto;
+        }
+        .incoming, .stopped, .inTransit {
+          display: inline-block;
           border-radius: 0.25rem;
           background-color: #000;
           color: #fff;
           text-align: center;
-          line-height: calc(1.5rem - 2px);
+          line-height: normal;
           border: 1px solid #000;
           box-sizing: border-box;
+          display: table-cell;
+          vertical-align: middle;
         }
         /* 0: INCOMING_AT, 1: STOPPED_AT, 2: IN_TRANSIT_TO */
-        .incoming {
-          top: 0rem;
-          animation: incoming 1s ease-in-out infinite alternate;
-        }
-        .stopped {
-          top: 1.5rem;
-          background-color: #000;
-        }
-        .inTransit {
-          top: 0rem;
-          background-color: #00f;
-        }
-        .time {
-          & span {
-            font-size: 0.75rem;
-            padding-right: 0.5rem;
+        .incoming {animation: incoming 1s ease-in-out infinite alternate;}
+        .stopped {background-color: #000;}
+        .inTransit {background-color: #00f;}
+        & div {
+          padding-left: 0.5rem;
+          .time {
+            line-height: 1rem;
             & span {
-              font-size: 1rem;
-              padding: 0;
+              font-size: 0.75rem;
+              padding-right: 0.5rem;
+              & span {
+                font-size: 1rem;
+                padding: 0;
+              }
             }
           }
+          & h3 {
+            line-height: 1.25rem;
+            font-size: 1.25rem;
+          }
         }
+        
       }
     }
   }
