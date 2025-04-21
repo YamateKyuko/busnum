@@ -59,8 +59,12 @@ export default async function Table(props: {
       <>
         <p className={styles.vehicleNumber}>{props.desc}</p>
         <p className={styles.vehicleTimestamp}>
-          {/* ja-JPにlocaleを指定すること */}
-          {new Date(props.vehicle.timestamp * 1000).toLocaleTimeString('ja-JP')}
+          {
+            new Date((props.vehicle.timestamp % 86400) * 1000)
+              .toLocaleTimeString('ja-JP', {
+                timeZone: 'Asia/Tokyo',
+              })
+          }
           <span>現在</span>
         </p>
         <h3 className={styles.tripDesc}>
