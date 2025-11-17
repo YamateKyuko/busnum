@@ -42,3 +42,5 @@ next-env.d.ts
 
 # files for accessing the api directly
 /**/api/route.ts
+
+dia/

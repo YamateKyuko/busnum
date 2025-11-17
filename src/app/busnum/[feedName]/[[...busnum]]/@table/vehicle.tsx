@@ -14,7 +14,7 @@ export type stopTime = {
   platform_code: string,
 }
 
-const tripRequester = new APIrequester<stopTime[]>(
+const timesRequester = new APIrequester<stopTime[]>(
   'gtfsdb/stop_times', 'db'
 );
 
@@ -33,9 +33,10 @@ const tripUpdatesRequester = new APIrequester<tripUpdate[]>(
 export default async function Vehicle(props: {
   vehicle: vehicle
 }) {
-  const res = await tripRequester.get({
+  const res = await timesRequester.get({
     feed_id: props.vehicle.feed_id,
-    trip_id: props.vehicle.trip_id
+    trip_id: props.vehicle.trip_id,
+    stop_sequence: props.vehicle.stop_sequence || null
   });
   const TUres = await tripUpdatesRequester.get({
     feed_id: props.vehicle.feed_id,

@@ -10,7 +10,7 @@ export default async function Layout(props: Readonly<{
     <>
       <header className={styles.header}>
         <Link
-          href="/"
+          href="/busnum"
         >
           <Image
             src="/busnum4logo.svg"
