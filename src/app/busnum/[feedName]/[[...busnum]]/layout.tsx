@@ -2,16 +2,18 @@ import feedList from "@/app/api/common/feedList";
 
 export const feedNameParamName = "feedName";
 export const busNumParamName = "busnum";
+export const isFareDispParamName = "fare";
 
 
 export default async function BusNum(props: {
   form: React.ReactNode,
   table: React.ReactNode,
-  params: Promise<{[feedNameParamName]?: string, [busNumParamName]?: string[] }>,
+  params: Promise<{[feedNameParamName]?: string, [busNumParamName]?: string[], [isFareDispParamName]?: string }>,
 }) {
   const {
     [feedNameParamName]: feedName,
-    [busNumParamName]: busNum
+    [busNumParamName]: busNum,
+    // [isFareDispParamName]: isFareDispParam
   } = await props.params;
   if (!feedName) {return <>このフィード名がありません。</>;};
   if (busNum && busNum.length != 1) {return <>車番の指定が間違っています。</>;};

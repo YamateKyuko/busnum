@@ -96,6 +96,8 @@
         .inTransit {background-color: #00f;}
         & div {
           padding-left: 0.5rem;
+          position: relative;
+          width: calc(100% - 4rem - 0.5rem);
           .time {
             line-height: 1rem;
             & span {
@@ -110,6 +112,17 @@
           & h3 {
             line-height: 1.25rem;
             font-size: 1.25rem;
+          }
+          .fare {
+            position: absolute;
+            top: 0rem;
+            right: 0rem;
+            font-size: 1rem;
+            /* font-weight: bold; */
+            /* background-color: #ff0; */
+            padding: 0rem;
+            margin: 0rem;
+            line-height: 1rem;
           }
         }
         

@@ -12,6 +12,7 @@ export type stopTime = {
   departure_time: number,
   stop_name: string,
   platform_code: string,
+  price?: number,
 }
 
 const timesRequester = new APIrequester<stopTime[]>(
@@ -31,12 +32,13 @@ const tripUpdatesRequester = new APIrequester<tripUpdate[]>(
 );
 
 export default async function Vehicle(props: {
-  vehicle: vehicle
+  vehicle: vehicle,
+  faredisp?: boolean
 }) {
   const res = await timesRequester.get({
     feed_id: props.vehicle.feed_id,
     trip_id: props.vehicle.trip_id,
-    stop_sequence: props.vehicle.stop_sequence || null
+    stop_sequence: props.faredisp ? (props.vehicle.stop_sequence || null) : null
   });
   const TUres = await tripUpdatesRequester.get({
     feed_id: props.vehicle.feed_id,
@@ -45,6 +47,8 @@ export default async function Vehicle(props: {
   if (!res) return;
 
   const tripUpdate = TUres?.[0] || null;
+
+  console.log(res);
 
   return (
     <>
@@ -94,7 +98,9 @@ export default async function Vehicle(props: {
               <h3>
                 {stop.stop_name}
                 <span>{stop.platform_code}</span>
+                
               </h3>
+              <p className={styles.fare}>{stop.price}</p>
             </div>
           </li>
         )}

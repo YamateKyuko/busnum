@@ -38,7 +38,8 @@ const stopPatternsRequester = new APIrequester<stopPattern[]>(
 export default async function Table(props: {
   feedName: string,
   busnum: string,
-  selected: string | null
+  selected: string | null,
+  faredisp?: boolean
 }) {
   const vehicles = await vehiclePositionRequester.get({
     feedName: props.feedName,
@@ -101,6 +102,7 @@ export default async function Table(props: {
             {(props.selected == vehicle.description || vehicles.length == 1) && (
               <Vehicle
                 vehicle={vehicle}
+                faredisp={!!props.faredisp}
               />
             )}
           </details>
