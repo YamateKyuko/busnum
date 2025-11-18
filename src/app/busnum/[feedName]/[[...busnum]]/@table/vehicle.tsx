@@ -48,8 +48,6 @@ export default async function Vehicle(props: {
 
   const tripUpdate = TUres?.[0] || null;
 
-  console.log(res);
-
   return (
     <>
       <ul className={styles.stopList}>
