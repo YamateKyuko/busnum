@@ -93,6 +93,7 @@
           box-sizing: border-box;
           display: table-cell;
           vertical-align: middle;
+          font-size: larger;
         }
         /* 0: INCOMING_AT, 1: STOPPED_AT, 2: IN_TRANSIT_TO */
         .incoming {animation: incoming 1s ease-in-out infinite alternate;}
@@ -113,10 +114,7 @@
               }
             }
           }
-          & h3 {
-            line-height: 1.25rem;
-            font-size: 1.25rem;
-          }
+          
           .fare {
             position: absolute;
             top: 0rem;
@@ -133,6 +131,21 @@
       }
     }
   }
+}
+
+.stopName {
+  line-height: 1.25rem;
+  font-size: 1.25rem;
+  & span {
+    margin-left: 0.6125rem;
+    /* font-size: 1rem; */
+    /* line-height: calc(1.25rem - 2px); */
+    /* height: 1.25rem; */
+    /* border: 1px solid #000; */
+    /* box-sizing: border-box; */
+    /* padding: 0 calc(0.25rem - 1px); */
+  }
+  
 }
 
 

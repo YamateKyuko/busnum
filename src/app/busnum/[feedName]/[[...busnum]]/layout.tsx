@@ -3,6 +3,7 @@ import feedList from "@/app/api/common/feedList";
 export const feedNameParamName = "feedName";
 export const busNumParamName = "busnum";
 export const isFareDispParamName = "fare";
+export const langparamName = "lang";
 
 
 export default async function BusNum(props: {

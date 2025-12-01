@@ -2,6 +2,7 @@ import Image from "next/image";
 import feedList from "../api/common/feedList";
 import Link from "next/link";
 import { KeioBusManual, ToeiBusManual } from "./manual";
+import styles from "./page.module.css";
 
 export default function Home() {
   return (
@@ -11,8 +12,9 @@ export default function Home() {
           <Image
             src="/busnum4logo.svg"
             alt="BusNum Logo"
-            width={400}
-            height={100}
+            width={100}
+            height={25}
+            className={styles.logo}
           />
         </li>
         <li>

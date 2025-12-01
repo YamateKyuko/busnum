@@ -29,6 +29,9 @@ export type stopPattern = {
   stop_sequence: number,
   stop_name: string,
   stop_headsign: string,
+  route_name_translation?: string | null,
+  stop_name_translation?: string | null,
+  stop_headsign_translation?: string | null,
 };
 
 const stopPatternsRequester = new APIrequester<stopPattern[]>(
@@ -39,7 +42,8 @@ export default async function Table(props: {
   feedName: string,
   busnum: string,
   selected: string | null,
-  faredisp?: boolean
+  faredisp?: boolean,
+  lang?: string | null,
 }) {
   const vehicles = await vehiclePositionRequester.get({
     feedName: props.feedName,
@@ -52,36 +56,9 @@ export default async function Table(props: {
   const stopPatterns = await stopPatternsRequester.get({
     feed_id: vehicles[0]?.feed_id || 0,
     trip_id: tripIds,
-    stop_id: vehicles.map((vehicle) => vehicle.stop_id)
+    stop_id: vehicles.map((vehicle) => vehicle.stop_id),
+    lang: props.lang || null,
   });
-
-  const GetRouteElm = (props: {ptn: stopPattern | null, desc: string, vehicle: vehicle} ) => {
-    return (
-      <>
-        <p className={styles.vehicleNumber}>{props.desc}</p>
-        <p className={styles.vehicleTimestamp}>
-          {
-            new Date((props.vehicle.timestamp % 86400) * 1000)
-              .toLocaleTimeString('ja-JP', {
-                timeZone: 'Asia/Tokyo',
-              })
-          }
-          <span>現在</span>
-        </p>
-        <h3 className={styles.tripDesc}>
-          <span className="routeName">{props.ptn?.route_name}</span>
-          {props.ptn?.stop_headsign}
-        </h3>
-        <p className={styles.stopDesc}>
-          ただいま<span>{props.ptn?.stop_name}</span>
-          {props.vehicle.status == 0 && <>に<span>接近</span>中</>}
-          {props.vehicle.status == 1 && <>で<span>停車</span>中</>}
-          {props.vehicle.status == 2 && <>へ<span>走行</span>中</>}
-        </p>
-        
-      </>
-    );
-  };
 
   return (
     <>
@@ -96,6 +73,7 @@ export default async function Table(props: {
                   ptn={stopPatterns && stopPatterns.find((route) => route.trip_id === vehicle.trip_id) || null}
                   desc={vehicle.description}
                   vehicle={vehicle}
+                  lang={props.lang}
                 />
               }
             />
@@ -103,6 +81,7 @@ export default async function Table(props: {
               <Vehicle
                 vehicle={vehicle}
                 faredisp={!!props.faredisp}
+                lang={props.lang}
               />
             )}
           </details>
@@ -133,6 +112,65 @@ export default async function Table(props: {
           営業中でない車のデータはありません。
         </li>
       }
+      
+    </>
+  );
+};
+
+const GetRouteElm = (props: {ptn: stopPattern | null, desc: string, vehicle: vehicle, lang?: string | null} ) => {
+  return (
+    <>
+      <p className={styles.vehicleNumber}>{props.desc}</p>
+      <p className={styles.vehicleTimestamp}>
+        {props.lang == 'en' && <span>Fetched in </span>}
+        {
+          new Date((props.vehicle.timestamp % 86400) * 1000)
+            .toLocaleTimeString('ja-JP', {
+              timeZone: 'Asia/Tokyo',
+            })
+        }
+        {(props.lang == 'ja' || !props.lang) && <span>現在</span>}
+      </p>
+      <h3 className={styles.tripDesc}>
+        <span className="routeName">{props.ptn?.route_name_translation || props.ptn?.route_name}</span>
+        {props.ptn?.stop_headsign_translation || props.ptn?.stop_headsign}
+      </h3>
+      
+      {
+        props.lang == 'en' ?
+          <p className={styles.stopDesc}>
+            {props.vehicle.status == 0 && <><span>Arrving</span> at </>}
+            {props.vehicle.status == 1 && <><span>Stopping</span> at </>}
+            {props.vehicle.status == 2 && <><span>Running</span> to </>}
+            <span>{props.ptn?.stop_name_translation || props.ptn?.stop_name}</span>
+            .
+          </p> :
+        props.lang == 'ja-Hrkt' ?
+          <p className={styles.stopDesc}>
+            <span>{props.ptn?.stop_name_translation || props.ptn?.stop_name}</span>
+            {props.vehicle.status == 0 && <>に<span>ちかづいて</span>います</>}
+            {props.vehicle.status == 1 && <>で<span>とまって</span>います</>}
+            {props.vehicle.status == 2 && <>へ<span>むかって</span>います</>}
+            
+          </p> :
+        props.lang == 'ja' || !!props.lang ? 
+          <p className={styles.stopDesc}>
+            ただいま
+            <span>{props.ptn?.stop_name_translation || props.ptn?.stop_name}</span>
+            {props.vehicle.status == 0 && <>に<span>接近</span>中</>}
+            {props.vehicle.status == 1 && <>で<span>停車</span>中</>}
+            {props.vehicle.status == 2 && <>へ<span>走行</span>中</>}
+          </p> :
+        !props.lang ?
+          <p className={styles.stopDesc}>
+            ただいま
+            <span>{props.ptn?.stop_name_translation || props.ptn?.stop_name}</span>
+            {props.vehicle.status == 0 && <>に<span>接近</span>中</>}
+            {props.vehicle.status == 1 && <>で<span>停車</span>中</>}
+            {props.vehicle.status == 2 && <>へ<span>走行</span>中</>}
+          </p> : <></>
+      }
+      
       
     </>
   );
