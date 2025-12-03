@@ -24,7 +24,10 @@ export default function Button(props: {
 
   return (
     <summary onClick={() => setParam()}>
-      {props.elm}
+      <div>
+        {props.elm}
+      </div>
+      
     </summary>
   );
 };

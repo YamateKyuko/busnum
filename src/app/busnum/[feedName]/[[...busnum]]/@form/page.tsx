@@ -8,15 +8,10 @@ export const busNumSearchParamName = 'busnum';
 export default function Page() {
   return (
     <>
-    {/* <ul> */}
-      {/* <li> */}
-        <Search
-          placeholder="車番を入力"
-          paramName="busnum"
-          // isDynamic={true}
-        />
-      {/* </li> */}
-    {/* </ul> */}
+      <Search
+        placeholder="車番を入力"
+        paramName="busnum"
+      />
     </>
   );
 };

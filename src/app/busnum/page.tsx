@@ -42,9 +42,7 @@ export default function Home() {
           <KeioBusManual />
           <ToeiBusManual />
         </li>
-        <li>
-          <Link href="/busnum/info">公共交通オープンデータチャレンジ2025応募情報</Link>
-        </li>
+        
       </ul>
     </>
   );

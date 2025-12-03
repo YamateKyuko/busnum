@@ -99,10 +99,10 @@ export default async function Vehicle(props: {
               </p>
               <h3 className={styles.stopName}>
                 {stop.stop_name_translation || stop.stop_name}
-                <span>{stop.platform_code}</span>
+                <span>({stop.platform_code})</span>
                 
               </h3>
-              {props.faredisp && !stop.price && <p className={styles.fare}>¥{stop.price}</p>}
+              {(props.faredisp && stop.price) && <p className={styles.fare}>¥{stop.price}</p>}
               
             </div>
           </li>

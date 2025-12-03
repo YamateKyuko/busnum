@@ -3,7 +3,6 @@ import { busNumSearchParamName } from "../@form/page";
 import { feedNameParamName, busNumParamName, isFareDispParamName, langparamName } from "../layout";
 import Table from "./table";
 import { Suspense } from "react";
-import Link from "next/link";
 
 export default async function Page(props: {
   params: Promise<{[feedNameParamName]?: string, [busNumParamName]?: string[], [isFareDispParamName]?: string
@@ -47,11 +46,6 @@ export default async function Page(props: {
 
   return (
     <ul>
-      {isFareDispParam !== 'true' &&
-        <li>
-          <Link href='?fare=true'>運賃表示モードへ</Link>
-        </li>
-      }
       <li>テーブル{paramStr}</li>
       <Suspense fallback={<li>検索中</li>}>
         <Table

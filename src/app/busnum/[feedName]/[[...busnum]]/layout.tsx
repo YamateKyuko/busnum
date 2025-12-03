@@ -5,12 +5,13 @@ export const busNumParamName = "busnum";
 export const isFareDispParamName = "fare";
 export const langparamName = "lang";
 
+// {
+//   form: React.ReactNode,
+//   table: React.ReactNode,
+//   params: Promise<{[feedNameParamName]?: string, [busNumParamName]?: string[], [isFareDispParamName]?: string }>,
+// }
 
-export default async function BusNum(props: {
-  form: React.ReactNode,
-  table: React.ReactNode,
-  params: Promise<{[feedNameParamName]?: string, [busNumParamName]?: string[], [isFareDispParamName]?: string }>,
-}) {
+export default async function BusNum(props: LayoutProps<'/busnum/[feedName]/[[...busnum]]'>) {
   const {
     [feedNameParamName]: feedName,
     [busNumParamName]: busNum,

@@ -1,6 +1,6 @@
-& body {
+/* & body {
   overflow-y: scroll;
-}
+} */
 
 .header {
   width: 100%;
@@ -23,7 +23,7 @@
 .main {
   margin-top: 4rem;
   min-height: calc(100vh - 7rem);
-  overflow-x: auto;
+  /* overflow-x: auto; */
 }
 
 .footer {
