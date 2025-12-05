@@ -1,99 +1,136 @@
 .vehicle {
+  position: relative;
+  /* &::before {
+    content: '';
+    display: block;
+    position: sticky;
+    top: 3rem;
+    left: 0;
+    z-index: 1;
+    height: 0.5rem;
+    width: 100%;
+    background-color: #ff0;
+  } */
   & details {
     
     border: 1px solid #000;
     padding: calc(0.5rem - 1px);
     border-radius: 0.25rem;
-    z-index: -1;
+    /* z-index: -1; */
+    position: relative;
     /* overflow: none !important; */
     & summary::-webkit-details-marker {
       display: none;
     }
     & summary {
-      
-
+      background-color: #f00;
+      display: flex;
       position: sticky;
-      top: 5rem;
+      top: 4rem;
       left: 0;
+      z-index: 1;
+      box-sizing: border-box;
+      padding-top: 2rem;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      list-style-type: none;
+      /* margin-bottom: 0.5rem; */
 
       &::marker {content: '';}
-      & div {
-        top: -0.5rem;
-        /* position: absolute;
-        top: 0;
-        left: 0; */
 
-        /* position: relative; */
-        
-        display: fixed;
-        /* border: 1px solid #000; */
-        border-radius: 0.25rem;
-        
+      &::before {
+        content: '';
+        position: absolute;
+        top: -1rem;
+        left: -0.5rem;
+        width: calc(100% + 1rem);
         box-sizing: border-box;
-        padding-top: 2rem;
+        /* border: 1px solid #000; */
+        /* border-radius: 0.25rem 0.25rem 0 0; */
+        height: calc(100% + 1rem);
         background-color: #fff;
-        /* overflow: auto; */
-        /* display: flex; */
-        flex-wrap: wrap;
-        justify-content: space-between;
-        list-style-type: none;
+        z-index: -1;
+        /* outline: 1rem solid #f00; */
+        /* border-bottom: 1px solid #000; */
+      }
 
-        
-        
-        .vehicleNumber {
-          display: inline;
-          position: absolute;
-          top: -0.5rem;
-          border: 1px solid #000;
-          width: min-content;
-          padding: calc(0.25rem - 1px);
-          line-height: 1rem;
-          min-width: 3.5rem;
-          text-align: center;
-        }
-        .vehicleTimestamp {
-          position: absolute;
-          top: -0.5rem;
-          right: 0;
-          line-height: 1rem;
-          padding: calc(0.25rem - 1px);
-          border: 1px solid #ffffff00;
-          & span {
-            font-size: 0.75rem;
-          }
-        }
-        .tripDesc {
-          display: inline-block;
-          font-size: 1.25rem;
-          line-height: 1.5rem;
-          text-wrap: nowrap;
-          & span {
-            border: 1px solid #000;
-            margin-right: 0.5rem;
-            box-sizing: border-box;
-            min-width: calc(4rem);
-            display: inline-block;
-            height: 1.5rem;
-            text-align: center;
-            line-height: calc(1.5rem - 2px);
-          }
-        }
-        .stopDesc {
-          display: inline;
-          line-height: 1.5rem;
+      &::after {
+        content: '';
+        position: absolute;
+        top: -0.5rem;
+        left: -0.5rem;
+        width: calc(100% + 1rem);
+        box-sizing: border-box;
+        border-width: 1px 1px 1px 1px;
+        border-style: solid;
+        border-color: #000;
+        /* border: 1px solid #000; */
+        border-radius: 0.25rem 0.25rem;
+        height: calc(100% + 1rem);
+        background-color: #fff;
+        z-index: -1;
+        /* outline: 1rem solid #f00; */
+        /* border-bottom: 1px solid #000; */
+      }
+      .vehicleNumber {
+        display: inline;
+        position: absolute;
+        top: -0.5rem;
+        border: 1px solid #000;
+        width: min-content;
+        padding: calc(0.25rem - 1px);
+        line-height: 1rem;
+        min-width: 3.5rem;
+        text-align: center;
+      }
+      .vehicleTimestamp {
+        position: absolute;
+        top: -0.5rem;
+        right: 0;
+        line-height: 1rem;
+        padding: calc(0.25rem - 1px);
+        border: 1px solid #ffffff00;
+        & span {
           font-size: 0.75rem;
+        }
+      }
+      .tripDesc {
+        display: inline-block;
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+        text-wrap: nowrap;
+        & span {
+          border: 1px solid #000;
+          margin-right: 0.5rem;
+          box-sizing: border-box;
+          min-width: calc(4rem);
+          display: inline-block;
           height: 1.5rem;
-          width: auto;
-          text-wrap: nowrap;
-          & span {
-            font-size: 1rem;
-          }
+          text-align: center;
+          line-height: calc(1.5rem - 2px);
+        }
+      }
+      .stopDesc {
+        display: inline;
+        line-height: 1.5rem;
+        font-size: 0.75rem;
+        height: 1.5rem;
+        width: auto;
+        text-wrap: nowrap;
+        & span {
+          font-size: 1rem;
         }
       }
     }
     & ul.stopList {
+      position: relative;
       margin: 0.5rem 0 0 0;
+      & li:first-child {
+        border: none;
+      }
+      
       & li {
+        /* position: fixed; */
         position: relative;
         border-top: 1px solid #000;
         padding: 0.5rem 0;

@@ -74,10 +74,12 @@ class vehiclePositionDataStore {
     // 一致バス番号の検索部(要調整)
     const res = vehicleData.filter(
       (vehicle) => {
+        let bool = true;
         for (const [i, s] of form.entries()) {
-          if (vehicle.description?.charAt(descForm.indexOf(s)) != busNum.charAt(i)) return false;
-          return true;
+          if (vehicle.description?.charAt(descForm.indexOf(s)) != busNum.charAt(i)) bool = false;
+          // return true;
         };
+        return bool;
       }
     );
 

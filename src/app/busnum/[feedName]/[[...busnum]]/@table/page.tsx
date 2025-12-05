@@ -56,7 +56,33 @@ export default async function Page(props: {
           lang={langParam}
         />
       </Suspense>
-      
     </ul>
   );
 };
+
+// const Test = () => {
+//   const busNum = '2345';
+  
+//   const vehicleNumObj = feedList['keiobus']?.vehicleNumObj;
+  
+//   if (!vehicleNumObj || vehicleNumObj == true) return <div>test</div>;
+//   const form = vehicleNumObj.vehicleNumAvailableFormat.find((f) => f.length == busNum.length);
+//   if (!form) return <div>test</div>;
+//   const descForm = vehicleNumObj.vehicleNumFormat;
+  
+
+//   const vehicleData: {description: string}[] = [{description: '12345'}, {description: '22345'}];
+  
+//   const res = vehicleData.filter(
+//     (vehicle) => {
+//       let bool = true;
+//       for (const [i, s] of form.entries()) {
+//         if (vehicle.description?.charAt(descForm.indexOf(s)) != busNum.charAt(i)) bool = false;
+//         // return true;
+//       };
+//       return bool;
+//     }
+//   );
+//   console.log(res);
+//   return <div>test</div>;
+// }

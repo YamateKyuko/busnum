@@ -1,11 +1,16 @@
+
+
+
+
 export default async function Page(props: PageProps<'/busstop/timetable/[[...patterns]]'>) {
   const {
-    patterns: pattern_seqs
+    patterns: pattern_seqs = []
   } = await props.params;
   const {
     station_id
   } = await props.searchParams;
-  if (!pattern_seqs) return <>no pattern provided</>;
+
+  console.log(pattern_seqs);
 
   const pattern_ids = pattern_seqs.map((pattern_seq) => {
 

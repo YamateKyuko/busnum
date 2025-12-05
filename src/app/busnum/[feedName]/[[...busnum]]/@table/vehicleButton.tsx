@@ -24,9 +24,9 @@ export default function Button(props: {
 
   return (
     <summary onClick={() => setParam()}>
-      <div>
+      {/* <div> */}
         {props.elm}
-      </div>
+      {/* </div> */}
       
     </summary>
   );
