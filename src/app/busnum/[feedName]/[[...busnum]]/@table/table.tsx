@@ -16,7 +16,12 @@ export type vehicle = {
   timestamp: number,
 };
 
-const vehiclePositionRequester = new APIrequester<vehicle[]>(
+export type vehicle_request = {
+  feedName: string,
+  busNum: string
+};
+
+const vehiclePositionRequester = new APIrequester<vehicle[], vehicle_request>(
   'gtfsrt/vehicleposition', 'rt'
 );
 
@@ -34,7 +39,14 @@ export type stopPattern = {
   stop_headsign_translation?: string | null,
 };
 
-const stopPatternsRequester = new APIrequester<stopPattern[]>(
+type stop_patterns_request = {
+  feed_id: number,
+  trip_id: string[],
+  stop_id: string[],
+  lang?: string | null,
+}
+
+const stopPatternsRequester = new APIrequester<stopPattern[], stop_patterns_request>(
   'gtfsdb/stop_patterns', 'db'
 );
 

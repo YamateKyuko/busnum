@@ -8,7 +8,10 @@ type resType = Record<string, unknown>;
   getでリクエスト。パラメータはこの時指定。
 
 */
-export class APIrequester<T extends resType | resType[] | resType[][]> {
+
+type ReqType = Record<string, string | number | string[] | (number | null) | number[]>;
+
+export class APIrequester<T extends resType | resType[] | resType[][], O extends ReqType> {
   root: string = '';
   endpoint: string;
   private apiKey: string = '';
@@ -33,7 +36,7 @@ export class APIrequester<T extends resType | resType[] | resType[][]> {
     };
   };
 
-  async get(requestObj: {[key: string]: string | number | string[] | (number | null)}): Promise<T | null> {
+  async get(requestObj: O): Promise<T | null> {
     try {
       const payload = {
         endpoint: this.endpoint,

@@ -21,11 +21,16 @@ export type stop = {
   route_name: string,
   stop_headsign: string,
   platform_code: string,
-  zone_id: string
+  zone_id: string,
+  first_stop_name: string,
+  weekday_count: number,
 };
 
+type station_request = {
+  station_id: number
+}
 
-const stationsRequester = new APIrequester<station>(
+const stationsRequester = new APIrequester<station, station_request>(
   'gtfsdb/stations', 'db'
 );
 
@@ -78,10 +83,13 @@ function PatternTable(props: {stop: stop, isStopNeeded: boolean}) {
         <li>
           <h4>{props.stop.stop_name} ({props.stop.platform_code})</h4>
           <div>Stop ID: {props.stop.stop_id}</div>
+          
         </li>
       }
       <li>
         <h3>{props.stop.route_name}{props.stop.stop_headsign}</h3>
+        {props.stop.first_stop_name}から・
+        平日日中{props.stop.weekday_count}本運転
       </li>
     </>
   );

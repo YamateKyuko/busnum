@@ -1,7 +1,7 @@
 import { APIrequester } from "@/app/lib/request";
 import styles from "./styles.module.css";
 import { vehicle } from "./table";
-import { secondToHHMMString } from "@/app/lib/util";
+import { Time } from "@/app/lib/util";
 
 export type stopTime = {
   feed_id: number,
@@ -14,9 +14,16 @@ export type stopTime = {
   platform_code: string,
   price?: number,
   stop_name_translation?: string | null,
+};
+
+type stop_time_request = {
+  feed_id: number,
+  trip_id: string,
+  stop_sequence?: number | null,
+  lang?: string | null,
 }
 
-const timesRequester = new APIrequester<stopTime[]>(
+const timesRequester = new APIrequester<stopTime[], stop_time_request>(
   'gtfsdb/stop_times', 'db'
 );
 
@@ -28,7 +35,12 @@ type tripUpdate = {
   }[]
 };
 
-const tripUpdatesRequester = new APIrequester<tripUpdate[]>(
+type trip_update_request = {
+  feed_id: number,
+  trip_id: string
+};
+
+const tripUpdatesRequester = new APIrequester<tripUpdate[], stop_time_request>(
   'gtfsrt/tripUpdates', 'rt'
 );
 
@@ -145,7 +157,7 @@ const TimeComponent = (props: {tripUpdate: tripUpdate | null, stop: stopTime, ve
           props.lang == 'ja-Hrkt' ? '' :
           (props.lang == 'ja' || !props.lang) ? '' : ''
         }
-        <span>{secondToHHMMString(t)}</span>
+        <span>{Time.set(t).hms()}</span>
         {
           props.lang == 'en' ? '' :
           props.lang == 'ja-Hrkt' ? `${b ? 'とうちゃく' : 'はっしゃ'}${props.vehicle.stop_sequence <= props.stop.stop_sequence ? 'みこみ' : ''}` :
