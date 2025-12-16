@@ -6,7 +6,8 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "busnum",
-  description: "Bus Useful Service Navigation",
+  description: "Bus Navigation app",
+  icons: [{rel: 'icon', url: '/icon.svg'}],
 };
 
 export default async function Layout(props: LayoutProps<'/'>) {

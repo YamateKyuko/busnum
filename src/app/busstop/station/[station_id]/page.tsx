@@ -66,7 +66,6 @@ async function StationTable(props: { station_id: number }) {
           stop={stop}
           isStopNeeded={station.stop_patterns[i - 1]?.stop_id !== stop.stop_id}
         />
-        
       ))}
       
         <ul>
@@ -89,7 +88,7 @@ function PatternTable(props: {stop: stop, isStopNeeded: boolean}) {
       <li>
         <h3>{props.stop.route_name}{props.stop.stop_headsign}</h3>
         {props.stop.first_stop_name}から・
-        平日日中{props.stop.weekday_count}本運転
+        平日{props.stop.weekday_count}本運転
       </li>
     </>
   );

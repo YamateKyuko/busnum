@@ -24,8 +24,10 @@ export default async function BusNum(props: LayoutProps<'/busnum/[feedName]/[[..
 
   return (
     <>
+      {props.children}
       {props.form}
       {props.table}
+      
     </>
   );
 };

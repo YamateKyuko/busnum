@@ -1,6 +1,6 @@
 import { APIrequester } from "@/app/lib/request";
 import { Time } from "@/app/lib/util";
-import styles from '@/app/busstop/timetable/[[...patterns]]/timetable.module.css';
+import styles from './timetable.module.css';
 
 export type pattern_times = {
   pattern_id: number,
@@ -17,6 +17,7 @@ export type pattern_times = {
 };
 
 type pattern_times_request = {
+  date: string,
   pattern_ids: number[],
   stop_sequences: number[]
 };
@@ -42,7 +43,7 @@ const patternTimesRequester = new APIrequester<pattern_times[], pattern_times_re
   'gtfsdb/pattern_times', 'db'
 );
 
-const patternRequester = new APIrequester<pattern[], pattern_times_request>(
+const patternRequester = new APIrequester<pattern[], pattern_request>(
   'gtfsdb/patterns', 'db'
 );
 
@@ -57,8 +58,10 @@ class PS {
   pattern_ids: number[] = [];
   stop_sequences: number[] = [];
   tbl: Map<`${number}_${number}`, pso> = new Map();
+  date: string;
 
-  constructor(values: string[]) {
+  constructor(values: string[], d: string) {
+    this.date = d;
     values.forEach((v, i) => {
       const [p, s] = v.split('_').map((n) => Number(n));
       if (!p || !s || isNaN(p) || isNaN(s)) return;
@@ -98,15 +101,33 @@ class PS {
 
 
 
-export default async function Page(props: PageProps<'/busstop/timetable/[[...patterns]]'>) {
+export default async function Page(props: PageProps<'/busstop/timetable/[date]/[[...patterns]]'>) {
   const {
+    date: dateparam,
     patterns: pattern_seqs = []
   } = await props.params;
   const {
     station_id
   } = await props.searchParams;
 
-  const PSs = new PS(pattern_seqs);
+
+  let dateclass = new Date(dateparam);
+  if (isNaN(dateclass.getDate())) dateclass = new Date(Date.now());
+  // console.log(Date.now())
+  const str = new Intl.DateTimeFormat('ja-JP', {
+    calendar: 'gregory',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: undefined,
+    minute: undefined,
+    second: undefined,
+    timeZone: 'Asia/Tokyo'
+  }).format(dateclass);
+  const date = str.replaceAll('/', '-');
+  console.log(`Date: ${date}`);
+
+  const PSs = new PS(pattern_seqs, date);
 
   return (
     <ul>
@@ -153,7 +174,9 @@ async function PatternTable(props: { PSs: PS }) {
 };
 
 async function PatternTimeTable(props: { PSs: PS }) {
+  // console.log(props.PSs.date)
   const res = await patternTimesRequester.get({
+    date: props.PSs.date,
     pattern_ids: props.PSs.pattern_ids,
     stop_sequences: props.PSs.stop_sequences
   });
@@ -161,7 +184,7 @@ async function PatternTimeTable(props: { PSs: PS }) {
   if (!res) return <div>No data found.</div>;
 
   return (
-    <dl>
+    <dl className={styles.timetable}>
       {res.map((stoptime, i) => (
         <TimeComponent
           key={`${stoptime.trip_id}-${stoptime.stop_sequence}`}

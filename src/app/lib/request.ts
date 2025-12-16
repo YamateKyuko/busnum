@@ -49,9 +49,17 @@ export class APIrequester<T extends resType | resType[] | resType[][], O extends
         {headers: {'Authorization': `Bearer ${token}`}}
       );
 
+      if (!response.ok) return null;
+      if (response.status !== 200) return null;
+      if (response.headers.get('Content-Type') !== 'application/json') return null;
+      // console.log(response.headers);
+      // if (response.type !== 'application/json') return null;
+
 
       const json = await response.json();
       if (!json) return null;
+
+      if (json.error == 'error') {return null};
 
       return json;
 
