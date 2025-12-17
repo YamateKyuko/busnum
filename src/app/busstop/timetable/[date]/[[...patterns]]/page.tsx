@@ -1,6 +1,8 @@
 import { APIrequester } from "@/app/lib/request";
 import { Time } from "@/app/lib/util";
 import styles from './timetable.module.css';
+import Link from "next/link";
+import { ChangeEventHandler } from "react";
 
 export type pattern_times = {
   pattern_id: number,
@@ -37,6 +39,7 @@ type pattern = {
   stop_name: string,
   stop_headsign: string,
   zone_id: string,
+  first_stop_name: string
 };
 
 const patternTimesRequester = new APIrequester<pattern_times[], pattern_times_request>(
@@ -51,7 +54,8 @@ type pso = {
   pattern_id: number,
   stop_sequence: number,
   index: number,
-  ab: string
+  ab: string,
+  color: string
 };
 
 class PS {
@@ -69,7 +73,8 @@ class PS {
         pattern_id: p,
         stop_sequence: s,
         index: i,
-        ab: PS.convABC(i)
+        ab: PS.convABC(i),
+        color: 'black'
       });
       this.pattern_ids.push(p);
       this.stop_sequences.push(s);
@@ -97,6 +102,26 @@ class PS {
     if (!o) return null;
     return o;
   }
+
+  getColor(p: number, s: number): string | null {
+    const o = this.get(p, s);
+    if (!o) return null;
+    return o.color;
+  }
+
+  // setColor(p: number, s: number, c: string): void {
+  //   const o = this.get(p, s);
+  //   if (!o) return;
+  //   o.color = c;
+  // }
+
+  // setColorHandler: ChangeEventHandler<HTMLInputElement> = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   console.log(event)
+  //   // return (e) => {
+  //   //   const [p, s] = event.target.value.split('_').map((n) => Number(n));
+  //   //   this.setColor(p, s, e.target.value);
+  //   // };
+  // }
 }
 
 
@@ -134,7 +159,7 @@ export default async function Page(props: PageProps<'/busstop/timetable/[date]/[
       <li>
         パターン別時刻表
       </li>
-      <li>
+      <li className={styles.timetableNav}>
         <PatternTable
           PSs={PSs}
         />
@@ -162,14 +187,20 @@ async function PatternTable(props: { PSs: PS }) {
   // console.log(props.PSs.getAB(1, 3));
 
   return (
-    <ul>
-      {r.map((pattern, i) => (
-        <li key={i}>
-          {props.PSs.getAB(pattern.pattern_id, pattern.stop_sequence)}-
-          {pattern.route_name} {pattern.stop_name} {pattern.stop_headsign}
-        </li>
-      ))}
-    </ul>
+    <details open>
+      <summary>凡例</summary>
+      <ul>
+        {r.map((pattern, i) => (
+          <li key={i}>
+            <p className={styles.timetableNavIcon}>{props.PSs.getAB(pattern.pattern_id, pattern.stop_sequence)}</p>
+            <h3><span>{pattern.route_name}</span>{pattern.stop_headsign}</h3>
+            <p className={styles.timetableNavFirststopname}>{pattern.first_stop_name}<span>発</span></p>
+            <p className={styles.timetableNavStopname}>{pattern.stop_name}<span>の時刻</span></p>
+            {/* <input type="color" value={props.PSs.getColor(pattern.pattern_id, pattern.stop_sequence) || '#000000'} onChange={} /> */}
+          </li>
+        ))}
+      </ul>
+    </details>
   )
 };
 
@@ -207,8 +238,14 @@ async function TimeComponent(props: { stoptime: pattern_times, PSs: PS, pdep: nu
         <dt className={styles.timetableHour}>{time.h}</dt>
       }
       <dd className={styles.timetableCell}>
-        {time.m}
-        <span>{props.PSs.getAB(props.stoptime.pattern_id, props.stoptime.stop_sequence)}</span>
+        <Link
+          href=''
+          // href={`/busstop/bustime/${props.stoptime.trip_id}`}
+        >
+          {time.m}
+          <span>{props.PSs.getAB(props.stoptime.pattern_id, props.stoptime.stop_sequence)}</span>
+        </Link>
+        
       </dd>
     </>
   );
