@@ -60,7 +60,7 @@
 
     --hum-w: 3rem;
     --ban-w: 1.5rem;
-    --ban-border-w: 0.125rem;
+    --ban-border-w: 1px;
     --ban-top: 0.875rem;
     /* z-index: 200; */
 
