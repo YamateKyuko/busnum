@@ -10,11 +10,11 @@ export default function Home() {
         <li>
           <Link href="/busnum">busnum</Link>
         </li>
-        <li>
+        {/* <li>
           <Link href="/busstop">busnum busstop</Link>
-        </li>
+        </li> */}
         <li>
-          <Link href="/busnum/info">公共交通オープンデータチャレンジ2025応募情報</Link>
+          <Link href="/info">公共交通オープンデータチャレンジ2025応募情報</Link>
         </li>
       </ul>
     </>

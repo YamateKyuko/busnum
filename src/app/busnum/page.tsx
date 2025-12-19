@@ -10,7 +10,7 @@ export default function Home() {
       <ul>
         <li>
           <Image
-            src="/busnum4logo.svg"
+            src={process.env.NEXT_PUBLIC_APP_NAME == 'busnum25' ? "/busnum25.svg" : "/busnum4logo.svg"}
             alt="BusNum Logo"
             width={100}
             height={25}

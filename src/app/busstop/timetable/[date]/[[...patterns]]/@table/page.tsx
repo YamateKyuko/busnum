@@ -150,7 +150,7 @@ export default async function Page(props: PageProps<'/busstop/timetable/[date]/[
     timeZone: 'Asia/Tokyo'
   }).format(dateclass);
   const date = str.replaceAll('/', '-');
-  console.log(`Date: ${date}`);
+  // console.log(`Date: ${date}`);
 
   const PSs = new PS(pattern_seqs, date);
 
@@ -180,11 +180,9 @@ async function PatternTable(props: { PSs: PS }) {
   });
   if (!r) return <div>No data found.</div>;
 
-  // const aa = r[0];
-  // if (!aa) return <div>No data found.</div>;
-  // console.log(aa);
-  // console.log(props.PSs);
-  // console.log(props.PSs.getAB(1, 3));
+  // const a = () => {
+  //   'use client';
+  // }
 
   return (
     <details open>
@@ -196,7 +194,7 @@ async function PatternTable(props: { PSs: PS }) {
             <h3><span>{pattern.route_name}</span>{pattern.stop_headsign}</h3>
             <p className={styles.timetableNavFirststopname}>{pattern.first_stop_name}<span>発</span></p>
             <p className={styles.timetableNavStopname}>{pattern.stop_name}<span>の時刻</span></p>
-            {/* <input type="color" value={props.PSs.getColor(pattern.pattern_id, pattern.stop_sequence) || '#000000'} onChange={} /> */}
+            {/* <input type="color" value={props.PSs.getColor(pattern.pattern_id, pattern.stop_sequence) || '#000000'} onChange={() => {console.log('hello')}} /> */}
           </li>
         ))}
       </ul>
