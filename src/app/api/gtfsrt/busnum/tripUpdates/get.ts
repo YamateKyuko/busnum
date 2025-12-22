@@ -1,7 +1,7 @@
-import * as gtfsRealtime from '../gtfs_realtime_pb';
-import feedList from '../../common/feedList';
+import * as gtfsRealtime from '@/app/api/gtfsrt/gtfs_realtime_pb';
+import feedList from '@/app/api/common/feedList';
 import { tripObj, tripStopObj } from './route';
-import gtfsrtGetter from '../gtfsrtGetter';
+import gtfsrtGetter from '@/app/api/gtfsrt/gtfsrtGetter';
 
 export async function getRT(
   feedObj: typeof feedList[keyof typeof feedList]

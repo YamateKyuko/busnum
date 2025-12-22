@@ -1,7 +1,7 @@
 // import axios from 'axios';
-import * as gtfsRealtime from '../gtfs_realtime_pb';
+import * as gtfsRealtime from '@/app/api/gtfsrt/gtfs_realtime_pb';
 import feedList from '@/app/api/common/feedList';
-import gtfsrtGetter from '../gtfsrtGetter';
+import gtfsrtGetter from '@/app/api/gtfsrt/gtfsrtGetter';
 import { vehicleObj } from './route';
 
 export async function getRT(

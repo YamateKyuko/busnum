@@ -1,6 +1,6 @@
 import { API } from "@/app/api/common/api";
 import { NextResponse } from "next/server";
-import feedList from "../../common/feedList";
+import feedList from "@/app/api/common/feedList";
 import { getRT } from "./get";
 
 export interface vehicleObj {
@@ -95,7 +95,7 @@ const store = new vehiclePositionDataStore();
 const duration = 15 * 1000;
 
 const vehiclePositionAPI = new API({
-  endpoint: 'gtfsrt/vehicleposition',
+  endpoint: 'gtfsrt/busnum/vehicleposition',
 
   reqObjDef: {
     feedName: 'string', // e.g. 'keiobus'

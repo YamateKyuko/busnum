@@ -22,7 +22,7 @@ export type vehicle_request = {
 };
 
 const vehiclePositionRequester = new APIrequester<vehicle[], vehicle_request>(
-  'gtfsrt/vehicleposition', 'rt'
+  'gtfsrt/busnum/vehicleposition', 'rt'
 );
 
 export type stopPattern = {
@@ -62,6 +62,8 @@ export default async function Table(props: {
     busNum: props.busnum
   });
   if (!vehicles) return <></>;
+
+  // console.log(vehicles);
 
   const tripIds = vehicles.map((vehicle) => vehicle.trip_id);
 

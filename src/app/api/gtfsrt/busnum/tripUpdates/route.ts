@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getRT } from "./get";
-import feedList from "../../common/feedList";
-import { API } from "../../common/api";
+import feedList from "@/app/api/common/feedList";
+import { API } from "@/app/api/common/api";
 
 export interface tripObj {
   id: string | null,
@@ -83,17 +83,30 @@ class tripUpdatesDataStore {
 
     return vehicleData;
   };
+  getByIDs(feedName: string, tripIds: string[]) {
+    const cache = this.data[feedName]?.cache;
+    if (!cache) return null;
+    
+    // const res = Map.groupBy(cache, ([k, v], i) => tripIds.includes(k) ? k : false);
+    const res = new Map<string, tripObj[]>();
+    tripIds.forEach((id) => {
+      const tripData = cache.get(id);
+      if (tripData) res.set(id, tripData);
+    });
+    // console.log(res);
+    return Array.from(res);
+  };
   set(feedName: string, data: feedData) {
     this.data[feedName] = data;
   };
 };
 
-const store = new tripUpdatesDataStore();
+export const store = new tripUpdatesDataStore();
 
 const duration = 15 * 1000;
 
 const tripUpdatesAPI = new API({
-  endpoint: 'gtfsrt/tripUpdates',
+  endpoint: 'gtfsrt/busnum/tripUpdates',
 
   reqObjDef: {
     feed_id: 'number', // e.g. 'keiobus'

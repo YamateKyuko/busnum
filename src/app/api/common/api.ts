@@ -29,9 +29,11 @@ T extends [reqDefObjVals] ? reqDefObjNonArrTypeConv<T[number]>[]
 type reqDefObjNonArrTypeConv<T extends reqDefObjVals> = 
 T extends 'string' ? string :
 T extends 'number' ? number :
+T extends 'string[]' ? string[] :
+T extends 'number[]' ? number[] :
 T extends ['string', 'string'] ? [string, string] :
 never;
-type reqDefObjVals = 'string' | 'number' | ['string', 'string'];
+type reqDefObjVals = 'string' | 'number' | ['string', 'string'] | 'string[]' | 'number[]';
 
 /** API共通class */
 export class API<reqObjGenerics extends reqDefObj> {

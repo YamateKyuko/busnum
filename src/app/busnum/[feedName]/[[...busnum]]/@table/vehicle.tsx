@@ -41,7 +41,7 @@ type trip_update_request = {
 };
 
 const tripUpdatesRequester = new APIrequester<tripUpdate[], stop_time_request>(
-  'gtfsrt/tripUpdates', 'rt'
+  'gtfsrt/busnum/tripUpdates', 'rt'
 );
 
 export default async function Vehicle(props: {
@@ -62,6 +62,8 @@ export default async function Vehicle(props: {
   if (!res) return;
 
   const tripUpdate = TUres?.[0] || null;
+
+  console.log(tripUpdate);
 
   return (
     <>
