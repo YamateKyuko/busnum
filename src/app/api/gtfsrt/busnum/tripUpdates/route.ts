@@ -3,7 +3,7 @@ import { getRT } from "./get";
 import feedList from "@/app/api/common/feedList";
 import { API } from "@/app/api/common/api";
 
-export interface tripObj {
+export interface tripUpdate {
   id: string | null,
   isDeleted: boolean | null,
   
@@ -18,13 +18,13 @@ export interface tripObj {
   wheelchair_accessible: 0 | 1 | 2 | 3 | null,
 
   // list
-  stop_time_update_list: tripStopObj[],
+  stop_time_update_list: stoptimeUpdate[],
 
   timestamp: number | null,
   delay: number | null,
 };
 
-export interface tripStopObj {
+export interface stoptimeUpdate {
   stop_sequence: number,
   stop_id: string | null,
   arrival_delay: number | null,
@@ -36,7 +36,7 @@ export interface tripStopObj {
 
 type feedData = {
   lastFetchTime: number,
-  cache: Map<string, tripObj[]> | null, // trip_idで区分
+  cache: Map<string, tripUpdate[]> | null, // trip_idで区分
   props: {
     name: string,
     textColor: string,
@@ -88,7 +88,7 @@ class tripUpdatesDataStore {
     if (!cache) return null;
     
     // const res = Map.groupBy(cache, ([k, v], i) => tripIds.includes(k) ? k : false);
-    const res = new Map<string, tripObj[]>();
+    const res = new Map<string, tripUpdate[]>();
     tripIds.forEach((id) => {
       const tripData = cache.get(id);
       if (tripData) res.set(id, tripData);

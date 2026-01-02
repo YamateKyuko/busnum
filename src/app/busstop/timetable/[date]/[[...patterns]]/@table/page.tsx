@@ -3,6 +3,7 @@ import { Time } from "@/app/lib/util";
 import styles from './timetable.module.css';
 import Link from "next/link";
 import { ChangeEventHandler } from "react";
+import { PS } from "../../../PS";
 
 export type pattern_times = {
   pattern_id: number,
@@ -24,107 +25,9 @@ type pattern_times_request = {
   stop_sequences: number[]
 };
 
-type pattern_request = {
-  pattern_ids: number[],
-  stop_sequences: number[]
-};
-
-type pattern = {
-  pattern_id: number,
-  feed_id: number,
-  route_id: string,
-  route_name: string,
-  stop_sequence: number,
-  stop_id: string,
-  stop_name: string,
-  stop_headsign: string,
-  zone_id: string,
-  first_stop_name: string
-};
-
 const patternTimesRequester = new APIrequester<pattern_times[], pattern_times_request>(
   'gtfsdb/pattern_times', 'db'
 );
-
-const patternRequester = new APIrequester<pattern[], pattern_request>(
-  'gtfsdb/patterns', 'db'
-);
-
-type pso = {
-  pattern_id: number,
-  stop_sequence: number,
-  index: number,
-  ab: string,
-  color: string
-};
-
-class PS {
-  pattern_ids: number[] = [];
-  stop_sequences: number[] = [];
-  tbl: Map<`${number}_${number}`, pso> = new Map();
-  date: string;
-
-  constructor(values: string[], d: string) {
-    this.date = d;
-    values.forEach((v, i) => {
-      const [p, s] = v.split('_').map((n) => Number(n));
-      if (!p || !s || isNaN(p) || isNaN(s)) return;
-      this.tbl.set(`${p}_${s}`, {
-        pattern_id: p,
-        stop_sequence: s,
-        index: i,
-        ab: PS.convABC(i),
-        color: 'black'
-      });
-      this.pattern_ids.push(p);
-      this.stop_sequences.push(s);
-    });
-  };
-
-  getIndex(p: number, s: number): number | null {
-    const o = this.get(p, s);
-    if (!o) return null;
-    return o.index;
-  };
-
-  static convABC(v: number): string {
-    return String.fromCharCode(...[(v > 25) ? (Math.floor(v / 26) + 64): [], (v % 26) + 65].flat());
-  };
-
-  getAB(p: number, s: number): string | null {
-    const o = this.get(p, s);
-    if (!o) return null;
-    return o.ab;
-  }
-
-  get(p: number, s: number): pso | null {
-    const o = this.tbl.get(`${p}_${s}`);
-    if (!o) return null;
-    return o;
-  }
-
-  getColor(p: number, s: number): string | null {
-    const o = this.get(p, s);
-    if (!o) return null;
-    return o.color;
-  }
-
-  // setColor(p: number, s: number, c: string): void {
-  //   const o = this.get(p, s);
-  //   if (!o) return;
-  //   o.color = c;
-  // }
-
-  // setColorHandler: ChangeEventHandler<HTMLInputElement> = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   console.log(event)
-  //   // return (e) => {
-  //   //   const [p, s] = event.target.value.split('_').map((n) => Number(n));
-  //   //   this.setColor(p, s, e.target.value);
-  //   // };
-  // }
-}
-
-
 
 export default async function Page(props: PageProps<'/busstop/timetable/[date]/[[...patterns]]'>) {
   const {
@@ -135,75 +38,25 @@ export default async function Page(props: PageProps<'/busstop/timetable/[date]/[
     station_id
   } = await props.searchParams;
 
-
   let dateclass = new Date(dateparam);
   if (isNaN(dateclass.getDate())) dateclass = new Date(Date.now());
-  // console.log(Date.now())
-  const str = new Intl.DateTimeFormat('ja-JP', {
-    calendar: 'gregory',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: undefined,
-    minute: undefined,
-    second: undefined,
-    timeZone: 'Asia/Tokyo'
-  }).format(dateclass);
-  const date = str.replaceAll('/', '-');
-  // console.log(`Date: ${date}`);
 
-  const PSs = new PS(pattern_seqs, date);
+  const PSs = new PS(pattern_seqs, dateclass);
 
   return (
-    <ul>
-      <li>
-        パターン別時刻表
-      </li>
-      <li className={styles.timetableNav}>
-        <PatternTable
-          PSs={PSs}
-        />
-      </li>
+    <>
       <li>
         <PatternTimeTable
           PSs={PSs}
         />
       </li>
-    </ul>
+    </>
   )
 };
 
-async function PatternTable(props: { PSs: PS }) {
-  const r = await patternRequester.get({
-    pattern_ids: props.PSs.pattern_ids,
-    stop_sequences: props.PSs.stop_sequences
-  });
-  if (!r) return <div>No data found.</div>;
 
-  // const a = () => {
-  //   'use client';
-  // }
-
-  return (
-    <details open>
-      <summary>凡例</summary>
-      <ul>
-        {r.map((pattern, i) => (
-          <li key={i}>
-            <p className={styles.timetableNavIcon}>{props.PSs.getAB(pattern.pattern_id, pattern.stop_sequence)}</p>
-            <h3><span>{pattern.route_name}</span>{pattern.stop_headsign}</h3>
-            <p className={styles.timetableNavFirststopname}>{pattern.first_stop_name}<span>発</span></p>
-            <p className={styles.timetableNavStopname}>{pattern.stop_name}<span>の時刻</span></p>
-            {/* <input type="color" value={props.PSs.getColor(pattern.pattern_id, pattern.stop_sequence) || '#000000'} onChange={() => {console.log('hello')}} /> */}
-          </li>
-        ))}
-      </ul>
-    </details>
-  )
-};
 
 async function PatternTimeTable(props: { PSs: PS }) {
-  // console.log(props.PSs.date)
   const res = await patternTimesRequester.get({
     date: props.PSs.date,
     pattern_ids: props.PSs.pattern_ids,

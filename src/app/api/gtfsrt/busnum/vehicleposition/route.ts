@@ -76,8 +76,9 @@ class vehiclePositionDataStore {
       (vehicle) => {
         let bool = true;
         for (const [i, s] of form.entries()) {
-          if (vehicle.description?.charAt(descForm.indexOf(s)) != busNum.charAt(i)) bool = false;
-          // return true;
+          const index = descForm.indexOf(s);
+          if (index === -1) continue;
+          if (vehicle.description?.charAt(index) !== busNum.charAt(i)) bool = false;
         };
         return bool;
       }

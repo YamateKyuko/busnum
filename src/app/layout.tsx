@@ -14,23 +14,13 @@ export default async function Layout(props: LayoutProps<'/'>) {
   return (
     <html lang="ja">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link
-          rel="icon"
-          href="/icon?<generated>"
-          type="image/<generated>"
-          sizes="<generated>"
-        />
+        <link rel="icon" href="/icons/icon.ico" type="image/vnd.microsoft.icon" sizes="<generated>" />
+        <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" sizes="<generated>" />
+        <link rel="apple-touch-icon" href="/icons/apple-icon.png" type="image/png" sizes="<generated>"/>
         <meta property="og:image" content="<generated>" />
         <meta property="og:image:type" content="<generated>" />
         <meta property="og:image:width" content="<generated>" />
         <meta property="og:image:height" content="<generated>" />
-        <link
-          rel="apple-touch-icon"
-          href="/apple-icon?<generated>"
-          type="image/<generated>"
-          sizes="<generated>"
-        />
       </head>
       <body>
         <header className={styles.header}>
@@ -59,7 +49,7 @@ export default async function Layout(props: LayoutProps<'/'>) {
         }
         
         <footer className={styles.footer}>
-          <p>(c) BUSNUM by Yamakyu</p>
+          <p>BUSNUM by Yamakyu</p>
           <details>
             <summary>ご利用の際にあたっては、こちらをご一読ください。</summary>
             本アプリケーションが利用する公共交通データは、

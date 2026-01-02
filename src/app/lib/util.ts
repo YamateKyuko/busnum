@@ -25,4 +25,8 @@ export class Time {
   hms(): string {
     return `${String(this.h).padStart(2, '0')}:${String(this.m).padStart(2, '0')}:${String(this.s).padStart(2, '0')}`;
   }
+
+  hm(): string {
+    return `${String(this.h).padStart(2, '0')}:${String(this.m).padStart(2, '0')}`;
+  }
 };

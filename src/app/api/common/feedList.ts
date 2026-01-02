@@ -13,7 +13,7 @@ export type feedListObj_ = {
   vehicleNumObj?: {
     vehicleNumFormat: number[],
     vehicleNumSliceIndex: number[],
-    vehicleNumAvailableFormat: number[][]
+    vehicleNumAvailableFormat: (number)[][]
     // {
     //   [key: number]: { // 文字長
     //     form: (number)[], // vehicleNumFormatのインデックス
@@ -43,7 +43,7 @@ const feedList: Record<string, feedListObj_> = {
     vehicleNumObj: {
       vehicleNumFormat: [1,2,3,4,5], // MYYNN
       vehicleNumSliceIndex: [3,4,5], // 京王バスは13年までは車番はメーカ、年度別にふっていた模様。以降は年度別。
-      vehicleNumAvailableFormat: [[3,4,5],[2,3,4,5],[1,2,3,4,5]]
+      vehicleNumAvailableFormat: [[3,4,5],[6,3,4,5],[1,2,3,4,5],[6,1,2,3,4,5]] // YYNNN, MYYNNN, MYYNNNN
     },
     tripUpdatesObj: {}
   },

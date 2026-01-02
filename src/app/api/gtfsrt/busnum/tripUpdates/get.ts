@@ -1,11 +1,11 @@
 import * as gtfsRealtime from '@/app/api/gtfsrt/gtfs_realtime_pb';
 import feedList from '@/app/api/common/feedList';
-import { tripObj, tripStopObj } from './route';
+import { tripUpdate, stoptimeUpdate } from './route';
 import gtfsrtGetter from '@/app/api/gtfsrt/gtfsrtGetter';
 
 export async function getRT(
   feedObj: typeof feedList[keyof typeof feedList]
-): Promise<Map<string, tripObj[]> | null> {
+): Promise<Map<string, tripUpdate[]> | null> {
   try {
     if (!feedObj.endpoints.TripUpdates) return null;
     // 共通GTFSRT取得関数でfetch
@@ -45,7 +45,7 @@ export async function getRT(
 function convEntity(
   feedId: number,
   entity: gtfsRealtime.FeedEntity.AsObject
-): tripObj | [] {
+): tripUpdate | [] {
 
   const conv = <T>(val: T) => val == undefined ? null : val;
   if (
@@ -78,7 +78,7 @@ function convEntity(
 
 function convList(
   entity: gtfsRealtime.TripUpdate.StopTimeUpdate.AsObject
-): tripStopObj | [] {
+): stoptimeUpdate | [] {
   const conv = <T>(val: T) => val == undefined ? null : val;
   if (
     entity.stopSequence == undefined

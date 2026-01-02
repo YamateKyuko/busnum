@@ -2,6 +2,7 @@ import { APIrequester } from "@/app/lib/request";
 import styles from "./styles.module.css";
 import { vehicle } from "./table";
 import { Time } from "@/app/lib/util";
+import { tripUpdate } from "@/app/api/gtfsrt/busnum/tripUpdates/route";
 
 export type stopTime = {
   feed_id: number,
@@ -27,18 +28,22 @@ const timesRequester = new APIrequester<stopTime[], stop_time_request>(
   'gtfsdb/stop_times', 'db'
 );
 
-type tripUpdate = {
-  stop_time_update_list: {
-    stop_id: string,
-    arrival_delay: number | null,
-    departure_delay: number | null,
-  }[]
-};
+// export type tripUpdate = {
+  
+//   stop_time_update_list: {
+//     stop_id: string,
+//     stop_sequence: number,
+//     arrival_delay: number | null,
+//     departure_delay: number | null,
+//     arrival_uncertainly: number | null,
+//     departure_uncertainly: number | null,
+//   }[]
+// };
 
-type trip_update_request = {
-  feed_id: number,
-  trip_id: string
-};
+// type trip_update_request = {
+//   feed_id: number,
+//   trip_id: string
+// };
 
 const tripUpdatesRequester = new APIrequester<tripUpdate[], stop_time_request>(
   'gtfsrt/busnum/tripUpdates', 'rt'
@@ -62,8 +67,6 @@ export default async function Vehicle(props: {
   if (!res) return;
 
   const tripUpdate = TUres?.[0] || null;
-
-  console.log(tripUpdate);
 
   return (
     <>
@@ -130,46 +133,51 @@ const TimeComponent = (props: {tripUpdate: tripUpdate | null, stop: stopTime, ve
   const update = props.tripUpdate?.stop_time_update_list.find((tu) => tu.stop_id == props.stop.stop_id);
   const time = (n: number, d: number | undefined, b: boolean) => {
     const t = n + (d || 0);
-    return <>
-      {d && Math.abs(d) > 30 &&
-        <span>
-          {
-            props.lang == 'en' ? 'About ' :
-            props.lang == 'ja-Hrkt' ? 'やく' :
-            (props.lang == 'ja' || !props.lang) ? '約' : ''
-          }
+    return (
+      <>
+        {d && Math.abs(d) > 30 &&
           <span>
-            {Math.round(d / 60)}
+            {
+              props.lang == 'en' ? 'About ' :
+              props.lang == 'ja-Hrkt' ? 'やく' :
+              (props.lang == 'ja' || !props.lang) ? '約' : ''
+            }
+            <span>
+              {Math.round(d / 60)}
+            </span>
+            {
+              props.lang == 'en' ? ' min' :
+              props.lang == 'ja-Hrkt' ? 'ふん' :
+              (props.lang == 'ja' || !props.lang) ? '分' : ''
+            }
+            {
+              props.lang == 'en' ? (d > 0 ? ' late' : ' early') :
+              props.lang == 'ja-Hrkt' ? (d > 0 ? 'おくれ' : 'そうはつ') :
+              (props.lang == 'ja' || !props.lang) ? (d > 0 ? '遅れ' : '早発') : ''
+            }
           </span>
+        }
+        <span> 
           {
-            props.lang == 'en' ? ' min' :
-            props.lang == 'ja-Hrkt' ? 'ふん' :
-            (props.lang == 'ja' || !props.lang) ? '分' : ''
+            props.lang == 'en' ? (b ? 'Arrive at ' : 'Departure at ') :
+            props.lang == 'ja-Hrkt' ? '' :
+            (props.lang == 'ja' || !props.lang) ? '' : ''
           }
+          <span>{Time.set(t).hms()}</span>
           {
-            props.lang == 'en' ? (d > 0 ? ' late' : ' early') :
-            props.lang == 'ja-Hrkt' ? (d > 0 ? 'おくれ' : 'そうはつ') :
-            (props.lang == 'ja' || !props.lang) ? (d > 0 ? '遅れ' : '早発') : ''
+            props.lang == 'en' ? '' :
+            props.lang == 'ja-Hrkt' ? `${b ? 'とうちゃく' : 'はっしゃ'}${props.vehicle.stop_sequence <= props.stop.stop_sequence ? 'みこみ' : ''}` :
+            (props.lang == 'ja' || !props.lang) ? `${b ? '着' : '発'}${props.vehicle.stop_sequence <= props.stop.stop_sequence ? '見込' : ''}` : ''
           }
         </span>
-      }
-      <span> 
-        {
-          props.lang == 'en' ? (b ? 'Arrive at ' : 'Departure at ') :
-          props.lang == 'ja-Hrkt' ? '' :
-          (props.lang == 'ja' || !props.lang) ? '' : ''
-        }
-        <span>{Time.set(t).hms()}</span>
-        {
-          props.lang == 'en' ? '' :
-          props.lang == 'ja-Hrkt' ? `${b ? 'とうちゃく' : 'はっしゃ'}${props.vehicle.stop_sequence <= props.stop.stop_sequence ? 'みこみ' : ''}` :
-          (props.lang == 'ja' || !props.lang) ? `${b ? '着' : '発'}${props.vehicle.stop_sequence <= props.stop.stop_sequence ? '見込' : ''}` : ''
-        }
-      </span>
-    </>;
+      </>
+    );
   };
   if (!update) return time(props.stop.departure_time, undefined, false);
-  if (update?.departure_delay) return time(props.stop.departure_time, update.departure_delay, false);
-  if (update?.arrival_delay) return time(props.stop.arrival_time, update.arrival_delay, true);
-  return '';
+  if (update.departure_delay !== null) return time(props.stop.departure_time, update.departure_delay, false);
+  if (update.departure_uncertainly !== null) return time(props.stop.departure_time, undefined, false);
+  if (update.arrival_delay !== null) return time(props.stop.arrival_time, update.arrival_delay, true);
+  if (update.arrival_uncertainly !== null) return time(props.stop.arrival_time, undefined, false);
+  return time(props.stop.departure_time, undefined, false);
+  // return '';
 }

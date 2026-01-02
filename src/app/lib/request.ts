@@ -11,7 +11,8 @@ type resType = Record<string, unknown>;
 
 type ReqType = Record<string, string | number | string[] | (number | null) | number[]>;
 
-export class APIrequester<T extends resType | resType[] | resType[][], O extends ReqType> {
+// export class APIrequester<T extends resType | resType[] | resType[][], O extends ReqType> {
+export class APIrequester<T, O extends ReqType> {
   root: string = '';
   endpoint: string;
   private apiKey: string = '';

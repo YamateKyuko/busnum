@@ -52,7 +52,7 @@ async function StationTable(props: { station_id: number }) {
   const station = await stationsRequester.get({
     station_id: props.station_id
   });
-  console.log(station);
+  // console.log(station);
   if (!station) return <div>No data found.</div>;
   return (
     <>
