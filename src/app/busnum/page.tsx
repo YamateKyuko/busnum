@@ -39,8 +39,8 @@ export default function Home() {
         ))}
         <li>
           <h3>使い方</h3>
-          <KeioBusManual />
-          <ToeiBusManual />
+          <Link href="/busnum/howto">バスナムの使い方</Link>
+          
         </li>
         
       </ul>

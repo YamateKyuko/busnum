@@ -5,10 +5,11 @@ export function KeioBusManual() {
         <summary>
           京王バス
         </summary>
-        数字 3・5 桁でお願いします。<br />
-        アルファベット(営業所記号)は省略してください。<br />
+        数字の3もしくは5桁で入力ください。<br />
+        アルファベット(営業所記号)も入力いただけますが、一切絞り込みに関わりません。<br />
         車番はバスの各所に配されています。<br />
-        一例です。YNNもしくはMYYNNでご入力ください。
+        ペイントされた場所の一例を示します。<br />
+        YNNもしくはMYYNNの形でご入力ください。
         <dl>
           <dt>前面・OYNN</dt>
           <dd>右ヘッドライトの上もしくは左</dd>
@@ -22,9 +23,9 @@ export function KeioBusManual() {
           <dd>中央</dd>
         </dl>
         <dl>
-          <dt>O・営業所</dt>
+          <dt>O・営業所 (アルファベット)</dt>
           <dt>M・メーカ</dt>
-          <dt>YY・導入年下二桁</dt>
+          <dt>YY・導入年下二桁 / Y・導入年下一桁</dt>
           <dt>NN・固有番号</dt>
         </dl>
       </details>

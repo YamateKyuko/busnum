@@ -130,6 +130,8 @@ async function PatternRtTimeTable(props: { PSs: PS }) {
 
   if (!res) return <div>No data found.</div>;
 
+  console.log(res);
+
   return (
     <dl className={styles.timetable}>
       {res.map((stoptime, i) => (

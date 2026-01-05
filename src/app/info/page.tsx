@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 function Page() {
   return (
@@ -14,7 +15,8 @@ function Page() {
         </li>
         <li>
           <h4>2.公開URL</h4>
-          <Link href="https://busnum.vercel.app/busnum/">リンク</Link>
+          <Link href="https://busnum.vercel.app/busnum/">バスナム</Link><br />
+          <Link href="https://busnum25.vercel.app/busnum/">archived version</Link>
         </li>
         <li>
           <h4>3.作品説明</h4>
@@ -33,20 +35,41 @@ function Page() {
         </li>
         <li>
           <h4>4.作品の紹介資料</h4>
-          (作る)
+          <Link href='/busnum.pdf'>PDF</Link>
         </li>
         <li>
           <h4>5.作品の紹介動画のURL</h4>
-          (作る)
+          <Link href='https://youtu.be/XdVIGR3mnn8'>バスナムのご案内</Link>
         </li>
         <li>
           <h4>6.作品の写真やスクリーンショットなど</h4>
-          (作る)
+          {/* 1125 × 2436  */}
+          <details>
+            <summary>画像</summary>
+            <Image
+              src="/busnumView.png"
+              alt="busnum screenshot"
+              width={1125/5}
+              height={2436/5}
+            />
+            <Image
+              src="/busnumEnglishView.png"
+              alt="busnum screenshot"
+              width={1125/5}
+              height={2436/5}
+            />
+            <Image
+              src="/busnumTimetableView.jpeg"
+              alt="busnum screenshot"
+              width={1125/5}
+              height={2436/5}
+            />
+          </details>
+          
         </li>
         <li>
           <h4>7.作品のマニュアルのURL</h4>
-          <Link href="/busnum/">リンク</Link><br />
-          (写真を使って書き直しする。)
+          <Link href="/busnum/howto">howto</Link><br />
         </li>
         <li>
           <h4>8.使用したオープンデータ</h4>
