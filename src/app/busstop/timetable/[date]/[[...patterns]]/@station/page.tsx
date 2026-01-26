@@ -1,5 +1,6 @@
 import { APIrequester } from "@/app/lib/request";
 import { Suspense } from "react";
+export const revalidate = 0;
 
 export type station = {
   feed_id: number,
@@ -57,20 +58,25 @@ async function StationTable(props: { station_id: number }) {
   return (
     <>
       <li>
-        Station ID: {props.station_id}
-        <h2>{station.station_name}</h2>
+        <details>
+          <summary>Station Info</summary>
+          Station ID: {props.station_id}
+          <h2>{station.station_name}</h2>
+          {station.stop_patterns.map((stop, i) => (
+            <PatternTable
+              key={`${stop.pattern_id}-${stop.stop_sequence}`}
+              stop={stop}
+              isStopNeeded={station.stop_patterns[i - 1]?.stop_id !== stop.stop_id}
+            />
+          ))}
+        </details>
+        
       </li>
-      {station.stop_patterns.map((stop, i) => (
-        <PatternTable
-          key={`${stop.pattern_id}-${stop.stop_sequence}`}
-          stop={stop}
-          isStopNeeded={station.stop_patterns[i - 1]?.stop_id !== stop.stop_id}
-        />
-      ))}
+
       
-        <ul>
+        {/* <ul>
           
-        </ul>
+        </ul> */}
     </>
   )
 }

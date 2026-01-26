@@ -104,7 +104,7 @@ export default async function Table(props: {
 
       {vehicles.length === 0 &&
         <li>
-          ごめんなさい。ごめんなさい。<br />
+          {/* ごめんなさい。ごめんなさい。<br /> */}
           結果が見つかりませんでした。<br />
           次の要因が考えられます。
           <dl>

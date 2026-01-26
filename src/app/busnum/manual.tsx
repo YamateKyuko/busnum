@@ -1,6 +1,6 @@
 export function KeioBusManual() {
   return (
-    // <li>
+    <li>
       <details>
         <summary>
           京王バス
@@ -29,13 +29,13 @@ export function KeioBusManual() {
           <dt>NN・固有番号</dt>
         </dl>
       </details>
-    // </li>
+    </li>
   )
 }
 
 export function ToeiBusManual() {
   return (
-    // <li>
+    <li>
       <details>
         <summary>
           都営バス
@@ -62,6 +62,6 @@ export function ToeiBusManual() {
           <dt>NNN・固有番号</dt>
         </dl>
       </details>
-    // </li>
+    </li>
   )
 }

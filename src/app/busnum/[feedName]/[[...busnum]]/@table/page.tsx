@@ -3,6 +3,7 @@ import { busNumSearchParamName } from "../@form/page";
 import { feedNameParamName, busNumParamName, isFareDispParamName, langparamName } from "../layout";
 import Table from "./table";
 import { Suspense } from "react";
+export const revalidate = 0;
 
 export default async function Page(props: {
   params: Promise<{[feedNameParamName]?: string, [busNumParamName]?: string[], [isFareDispParamName]?: string
@@ -46,7 +47,8 @@ export default async function Page(props: {
 
   return (
     <ul>
-      <li>テーブル{paramStr}</li>
+      
+      {/* <li>テーブル{paramStr}</li> */}
       <Suspense fallback={<li>検索中</li>}>
         <Table
           feedName={feedName}

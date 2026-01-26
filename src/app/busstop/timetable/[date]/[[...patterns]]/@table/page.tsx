@@ -46,6 +46,9 @@ export default async function Page(props: PageProps<'/busstop/timetable/[date]/[
   return (
     <>
       <li>
+        {PSs.date}
+      </li>
+      <li>
         <PatternTimeTable
           PSs={PSs}
         />
@@ -90,8 +93,8 @@ async function TimeComponent(props: { stoptime: pattern_times, PSs: PS, pdep: nu
       }
       <dd className={styles.timetableCell}>
         <Link
-          href=''
-          // href={`/busstop/bustime/${props.stoptime.trip_id}`}
+          // href=''
+          href={`/busstop/bustime/${props.stoptime.trip_id}`}
         >
           {time.m}
           <span>{props.PSs.getAB(props.stoptime.pattern_id, props.stoptime.stop_sequence)}</span>

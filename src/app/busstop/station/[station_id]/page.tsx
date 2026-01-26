@@ -1,5 +1,6 @@
 import { APIrequester } from "@/app/lib/request";
 import { Suspense } from "react";
+export const revalidate = 0;
 
 export type station = {
   feed_id: number,
