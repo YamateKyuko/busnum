@@ -6,10 +6,10 @@ function Page() {
     <>
       <ul>
         <li>
-          <h3>公共交通オープンデータチャレンジ2025応募情報</h3>
+          <h3>システム情報</h3>
         </li>
         <li>
-          <h4>1.応募作品名</h4>
+          <h4>1.名称</h4>
           <p>「バスナム」</p>
           バス車両番号検索サービス
         </li>
@@ -19,7 +19,7 @@ function Page() {
           <Link href="https://busnum25.vercel.app/busnum/">archived version</Link>
         </li>
         <li>
-          <h4>3.作品説明</h4>
+          <h4>3.説明</h4>
           バスナムは車両番号を入力することで、<br />
           バスがどの停留所を、いつ通過するのか、現在地はどこなのかがすぐにわかるシステムです。<br />
           現在、多くのバス会社が、自社の車両を特定するための識別番号をバスにペイントしています。<br />
@@ -34,15 +34,15 @@ function Page() {
           現在、京王バス、西武バス、都営バスに対応しています。
         </li>
         <li>
-          <h4>4.作品の紹介資料</h4>
+          <h4>4.紹介資料</h4>
           <Link href='/busnum.pdf'>PDF</Link>
         </li>
         <li>
-          <h4>5.作品の紹介動画のURL</h4>
+          <h4>5.紹介動画のURL</h4>
           <Link href='https://youtu.be/XdVIGR3mnn8'>バスナムのご案内</Link>
         </li>
         <li>
-          <h4>6.作品の写真やスクリーンショットなど</h4>
+          <h4>6.写真やスクリーンショットなど</h4>
           {/* 1125 × 2436  */}
           <details>
             <summary>画像</summary>
@@ -68,7 +68,7 @@ function Page() {
           
         </li>
         <li>
-          <h4>7.作品のマニュアルのURL</h4>
+          <h4>7.マニュアルのURL</h4>
           <Link href="/busnum/howto">howto</Link><br />
         </li>
         <li>

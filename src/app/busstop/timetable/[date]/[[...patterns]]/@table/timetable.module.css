@@ -3,9 +3,9 @@
   /* width: 10rem; */
   position: relative;
   /* position: fixed; */
-  &::first-line {
+  /* &::first-line {
     color: red;
-  }
+  } */
   &::before {
     content: '';
     position: absolute;

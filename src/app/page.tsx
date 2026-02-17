@@ -14,7 +14,7 @@ export default function Home() {
           <Link href="/busstop">busnum busstop</Link>
         </li> */}
         <li>
-          <Link href="/info">公共交通オープンデータチャレンジ2025応募情報</Link>
+          <Link href="/info">システム情報</Link>
         </li>
       </ul>
     </>

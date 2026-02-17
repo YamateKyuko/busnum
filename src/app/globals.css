@@ -5,6 +5,14 @@
   border: 0;
 }
 
+/* @container not scroll-state(stuck: top) {
+  ul {
+    background-color: #f00;
+    height: calc(100vh - 10rem);
+    z-index: 10000;
+  }
+} */
+
 main {
   padding: 0.5rem;
 }
@@ -30,3 +38,4 @@ dl {
     margin-left: 1rem;
   }
 }
+
