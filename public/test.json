@@ -1,0 +1,7 @@
+{
+  "data": "hello",
+  "bool": true,
+  "number": 123,
+  "obj": {"str": "heute"},
+  "arr": ["bonjour", "konnnichiha"]
+}
